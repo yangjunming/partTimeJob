@@ -3450,6 +3450,26 @@ a.hiddenanchor {
   -o-animation-name: fadeOutLeft;
   animation-name: fadeOutLeft;
 }
+#enterpriseSignup:target:target ~ .login_wrapper .registration_form, #signin:target ~ .login_wrapper .login_form {
+  z-index: 22;
+  -webkit-animation-name: fadeInLeft;
+  -moz-animation-name: fadeInLeft;
+  -ms-animation-name: fadeInLeft;
+  -o-animation-name: fadeInLeft;
+  animation-name: fadeInLeft;
+  -webkit-animation-delay: .1s;
+  -moz-animation-delay: .1s;
+  -o-animation-delay: .1s;
+  -ms-animation-delay: .1s;
+  animation-delay: .1s;
+}
+#enterpriseSignup:target ~ .login_wrapper .login_form, #signin:target ~ .login_wrapper .registration_form {
+  -webkit-animation-name: fadeOutLeft;
+  -moz-animation-name: fadeOutLeft;
+  -ms-animation-name: fadeOutLeft;
+  -o-animation-name: fadeOutLeft;
+  animation-name: fadeOutLeft;
+}
 .animate {
   -webkit-animation-duration: 0.5s;
   -webkit-animation-timing-function: ease;
