@@ -4,7 +4,38 @@
 <mapper namespace="cn.com.job.mapper.UserMapper">
 		<select id="getUserById" resultType="cn.com.job.bean.UserBean">
 				SELECT id,user_name as userName FROM user
-				 WHERE
-				 id=#{userId}
+				WHERE
+				id=#{userId}
 		</select>
+		<insert id="insert" parameterType="cn.com.job.bean.UserBean" useGeneratedKeys="true" keyProperty="userId">
+				insert into t_user
+				<trim prefix="(" suffix=")" suffixOverrides=",">
+						<if test="mobile !=null and mobile !='' ">
+								mobile,
+						</if>
+						<if test="type !=0 ">
+								type,
+						</if>
+						<if test="userName !=null and userName !='' ">
+								user_name,
+						</if>
+						<if test="password !=null and password !='' ">
+								password
+						</if>
+				</trim>
+				<trim prefix="values (" suffix=")" suffixOverrides=",">
+						<if test="mobile !=null and mobile !='' ">
+								#{mobile},
+						</if>
+						<if test="type !=0 ">
+								#{type},
+						</if>
+						<if test="userName !=null and userName !='' ">
+								#{userName},
+						</if>
+						<if test="password !=null and password !='' ">
+								#{password}
+						</if>
+				</trim>
+		</insert>
 </mapper>

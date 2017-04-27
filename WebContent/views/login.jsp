@@ -30,17 +30,16 @@
     <div>
       <a class="hiddenanchor" id="signup"></a>
       <a class="hiddenanchor" id="signin"></a>
-      <a class="hiddenanchor" id="enterpriseSignup"></a>
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
             <form>
               <h1>登录</h1>
               <div>
-                <input type="text" class="form-control" placeholder="Mobile" required="" />
+                <input type="text" class="form-control" placeholder="电话" required="" />
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
+                <input type="password" class="form-control" placeholder="密码" required="" />
               </div>
               <div>
                 <a class="btn btn-default submit" href="javascript:login();">登录</a>
@@ -52,37 +51,6 @@
               <div class="separator">
                 <p class="change_link">没有账号?
                   <a href="<%=basePath%>views/login.jsp#signup" class="to_register"> 创建个人账号 </a>
-                  <a href="<%=basePath%>views/login.jsp#enterpriseSignup" class="to_register"> 创建企业账号 </a>
-                </p>
-
-                <div class="clearfix"></div>
-                <br />
-              </div>
-            </form>
-          </section>
-        </div>
-        <div id="register" class="animate form registration_form">
-          <section class="login_content">
-            <form>
-              <h1>创建账号</h1>
-              <div>
-                <input type="text" class="form-control" placeholder="Username" id="userName" required="" />
-              </div>
-              <div>
-                <input type="mobile" class="form-control" placeholder="mobile" id="mobile" required="" />
-              </div>
-              <div>
-                <input type="password" class="form-control" placeholder="Password" id="password"  required="" />
-              </div>
-              <div>
-                <a class="btn btn-default submit" href="javascript:create();">提交</a>
-              </div>
-
-              <div class="clearfix"></div>
-
-              <div class="separator">
-                <p class="change_link">已经有账号 ?
-                  <a href="<%=basePath%>views/login.jsp#signin" class="to_register"> 登录 </a>
                 </p>
                 <div class="clearfix"></div>
                 <br />
@@ -94,14 +62,26 @@
           <section class="login_content">
             <form>
               <h1>创建账号</h1>
-              <div>
-                <input type="text" class="form-control" placeholder="Username" id="userName" required="" />
+              <div style="margin-bottom: 15px">
+                <select id="heard" class="form-control" required onchange="javascript:change();">
+                            <option value="3">个人注册</option>
+                            <option value="2">企业注册</option>
+                          </select>
               </div>
               <div>
-                <input type="mobile" class="form-control" placeholder="mobile" id="mobile" required="" />
+                <input type="text" class="form-control" placeholder="姓名" id="userName" required="" />
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Password" id="password"  required="" />
+                <input type="text" class="form-control" placeholder="电话" id="mobile" required="" />
+              </div>
+              <div>
+                <input type="password" class="form-control" placeholder="密码" id="password" required="" />
+              </div>
+              <div id="enterpriseNameDiv" hidden="">
+                <input type="text" class="form-control" placeholder="公司名称" id=enterpriseName required="" />
+              </div>
+              <div id="addressDiv" hidden="">
+                <input type="text" class="form-control" placeholder="公司地址" id="address" required="" />
               </div>
               <div>
                 <a class="btn btn-default submit" href="javascript:create();">提交</a>
@@ -121,14 +101,18 @@
         </div>
       </div>
     </div>
-<%--     	<script src="<%=basePath%>resources/js/bootstrap.min.js"></script> --%>
+    	<script src="<%=basePath%>resources/vendors/jquery/dist/jquery.min.js"></script> 
 		<script type="text/javascript">
     function create(){
     	var mobile = $("#mobile").val();
     	var userName = $("#userName").val();
     	var password = $("#password").val();
     	var confirmPassword = $("#password").val();
-    	var datas = {"mobile":mobile,"userName":userName,"password":password}
+    	var enterpriseName = $("#enterpriseName").val();
+    	var address = $("#address").val();
+    	var type = $("#heard").val();
+    	var datas = {"mobile":mobile,"userName":userName,"password":password,"enterpriseName":enterpriseName,"address":address,"type":type}
+    	console.log(datas);
     	$.ajax({
             type: "post",
             url: "<%=basePath%>user/registerUser",
@@ -139,6 +123,16 @@
 						}
 					});
 			}
+    function change(){
+    	var s = $("#heard").val();
+    	if(s==3){
+    		$("#enterpriseNameDiv").hide();
+    		$("#addressDiv").hide();
+    	}else if(s==2){
+    		$("#enterpriseNameDiv").show();
+    		$("#addressDiv").show();
+    	}
+    }
 		</script>
   </body>
 </html>

@@ -19,6 +19,10 @@
 
 		<!--自动扫描含有@Service将其注入为bean -->
 		<context:component-scan base-package="cn.com.job.service.impl" />
+		<!-- 事务管理器 -->
+		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+				<property name="dataSource" ref="dataSource" />
+		</bean>
 		<!--避免IE执行AJAX时，返回JSON出现下载文件 -->
 		<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 				<property name="supportedMediaTypes">

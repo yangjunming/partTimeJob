@@ -6,4 +6,6 @@ public interface UserService {
 
 	public UserBean getUserById(int uerId);
 
+	public boolean registerUser(UserBean userBean);
+
 }
