@@ -1,29 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%
-    String path = request.getContextPath();
-    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="common.jsp"%>
 <!DOCTYPE HTML>
 <html>
 <head>
 <base href="<%=basePath%>">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Gentelella Alela! | </title>
-    <!-- Bootstrap -->
-    <link href="<%=basePath%>resources/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="<%=basePath%>resources/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="<%=basePath%>resources/vendors/nprogress/nprogress.css" rel="stylesheet">
-    <!-- Animate.css -->
-    <link href="<%=basePath%>resources/vendors/animate.css/animate.min.css" rel="stylesheet">
-    <!-- Custom Theme Style -->
-    <link href="<%=basePath%>resources/build/css/custom.min.css" rel="stylesheet">
+    <title>注册登录 </title>
   </head>
 
   <body class="login">
@@ -50,7 +37,7 @@
 
               <div class="separator">
                 <p class="change_link">没有账号?
-                  <a href="<%=basePath%>views/login.jsp#signup" class="to_register"> 创建个人账号 </a>
+                  <a href="<%=basePath%>views/login.jsp#signup" class="to_register"> 注册账号 </a>
                 </p>
                 <div class="clearfix"></div>
                 <br />
@@ -61,7 +48,7 @@
         <div id="register" class="animate form registration_form">
           <section class="login_content">
             <form>
-              <h1>创建账号</h1>
+              <h1>注册账号</h1>
               <div style="margin-bottom: 15px">
                 <select id="heard" class="form-control" required onchange="javascript:change();">
                             <option value="3">个人注册</option>
@@ -101,7 +88,6 @@
         </div>
       </div>
     </div>
-    	<script src="<%=basePath%>resources/vendors/jquery/dist/jquery.min.js"></script> 
 		<script type="text/javascript">
     function create(){
     	var mobile = $("#mobile").val();
@@ -118,8 +104,14 @@
             url: "<%=basePath%>user/registerUser",
 						data : JSON.stringify(datas),
 						dataType : "json",
+						contentType : 'application/json;charset=utf-8', //设置请求头信息  
 						success : function(data) {
-							console.log(data);
+							if(data){
+							alertMessage("注册成功!");
+							window.location.href="<%=basePath%>views/login.jsp#signin";
+							}else{
+								alertError("注册失败!");
+							}
 						}
 					});
 			}
