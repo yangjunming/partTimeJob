@@ -10,6 +10,7 @@ import cn.com.job.bean.UserBean;
 import cn.com.job.mapper.UserMapper;
 import cn.com.job.service.EnterpriseService;
 import cn.com.job.service.UserService;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -17,7 +18,7 @@ public class UserServiceImpl implements UserService {
 	private UserMapper userMapper;
 	@Autowired
 	private EnterpriseService enterpriseService;
-	
+
 	@Override
 	public UserBean getUserById(int uerId) {
 		return userMapper.getUserById(uerId);
@@ -27,19 +28,28 @@ public class UserServiceImpl implements UserService {
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean registerUser(UserBean userBean) {
 		int result = userMapper.insert(userBean);
-		if(result >0 && userBean.getType() == 2){
+		if (result > 0 && userBean.getType() == 2) {
 			EnterpriseBean enterpriseBean = new EnterpriseBean();
 			enterpriseBean.setArea(userBean.getAddress());
 			enterpriseBean.setEnterpriseName(userBean.getEnterpriseName());
 			enterpriseBean.setUserId(userBean.getUserId());
 			enterpriseService.insert(enterpriseBean);
 		}
-		return result>0;
+		return result > 0;
 	}
 
 	@Override
 	public UserBean login(UserBean userBean) {
 		return userMapper.login(userBean);
+	}
+
+	@Override
+	public boolean updateUser(UserBean userBean) {
+		int result = userMapper.updateUser(userBean);
+		if (result > 0) {
+			return true;
+		}
+		return false;
 	}
 
 }

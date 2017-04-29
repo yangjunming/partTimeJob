@@ -46,7 +46,7 @@
 																		</ul></li>
 																<li><a><i class="fa fa-edit"></i> 招聘信息 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
-																				<li><a href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">我的招聘信息</a></li>
+																				<li class="active"><a href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">我的招聘信息</a></li>
 																				<li><a href="<%=basePath%>views/enterprise/addrecruitment-info.jsp">发布招聘信息</a></li>
 																				<!-- <li><a href="form_validation.html">Form Validation</a></li> -->
 																		</ul></li>
@@ -81,36 +81,82 @@
 						<!-- /top navigation -->
 
 						<!-- page content -->
-						<div></div>
 						<!-- /page content -->
-						<div class="right_col" role="main"></div>
+						<div class="right_col" role="main">
+						<div class="x_panel">
+                  <div class="x_title">
+                    <h2>修改个人信息 </h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">姓名</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                           <input type="text" class="form-control" value="" id="userName">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">电话</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                           <input type="text" class="form-control" value="" id="mobile">
+                        </div>
+                      </div>
+                     <div class="col-md-12 col-sm-12 col-xs-12">
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
+                          <a type="button" class="btn btn-primary" href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">取消</a>
+                          <a class="btn btn-success" href="javascript:save();">提交</a>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+                </div>
 						<!-- footer content -->
-						<footer>
-								<div class="clearfix"></div>
-						</footer>
 						<!-- /footer content -->
 				</div>
 		</div>
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
-		function logout(){
+		$(function userInfo(){
+			var userId =$("#userId").val();
 			$.ajax({
-        type: "get",
-        url: "<%=basePath%>user/logout",
+        type: "post",
+        url: "<%=basePath%>user/getUserById?userId="+userId+"",
 				data : {},
 				dataType : "json",
 				contentType : 'application/json;charset=utf-8', //设置请求头信息  
 				success : function(data) {
-					if(data){
-						alertMessage("退出成功")
-						window.setTimeout("window.location.href='<%=basePath%>views/login.jsp'", 400);
-						} else {
-							alertError("登录失败!");
-						}
-					}
-				});
+					$("#userName").val(data.userName);
+					$("#mobile").val(data.mobile);
 			}
+		});
+		})
+		function save(){
+			var userId =$("#userId").val();
+			var datas = {"userId":userId,"userName":$("#userName").val(),"mobile":$("#mobile").val()}
+			$.ajax({
+        type: "post",
+        url: "<%=basePath%>user/editUserInfo",
+				data : JSON.stringify(datas),
+				dataType : "json",
+				contentType : 'application/json;charset=utf-8', //设置请求头信息  
+				success : function(data) {
+					console.log(data);
+					if(data.falg =='1' ){
+						alertMessage(data.message);
+<%-- 						window.setTimeout("window.location.href='<%=basePath%>views/login.jsp'", 400); --%>
+				} else {
+					alertError(data.message);
+				}
+			}
+		});
+		}
 		</script>
 </body>
 </html>

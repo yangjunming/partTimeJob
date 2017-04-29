@@ -24,8 +24,9 @@
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
-														<input id="userId" value="${sessionScope.User.userId}" hidden=""> <img
-																src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
+														<input id="infoId" value="${param.id}" hidden="">
+														
+														 <img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
 												</div>
 												<div class="profile_info">
 														<span>欢迎,</span>
@@ -85,7 +86,7 @@
 										<div class="x_panel">
 												<div class="x_title">
 														<h2>
-																招聘信息列表
+																应聘者列表
 														</h2>
 														<div class="clearfix"></div>
 												</div>
@@ -95,18 +96,15 @@
 																		<tr>
 																				<th>#</th>
 																				<th>标题</th>
-																				<th>工资</th>
-																				<th>招聘人数</th>
-																				<th>报名数</th>
-																				<th>已录数</th>
-																				<th>开始日期</th>
-																				<th>结束日期</th>
-																				<th>发布时间</th>
+																				<th>应聘者姓名</th>
+																				<th>应聘者年龄</th>
+																				<th>应聘者学历</th>
+																				<th>应聘者电话</th>
 																				<th>状态</th>
 																				<th>操作</th>
 																		</tr>
 																</thead>
-																<tbody id="infoList">
+																<tbody id="sigupList">
 																</tbody>
 														</table>
 												</div>
@@ -124,15 +122,15 @@
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
-		$(function enterpriseInfo(){
-			infoList();
+		$(function sigupInfo(){
+			sigupList();
 		});
-		function infoList(){
-			$("#infoList tr").remove();
-			var userId = $("#userId").val();
+		function sigupList(){
+			$("#sigupList tr").remove();
+			var infoId = $("#infoId").val();
 			$.ajax({
         type: "get",
-        url: "<%=basePath%>info/getInfoListByUserId?userId=" + userId + "",
+        url: "<%=basePath%>info/getsigupList?infoId=" + infoId + "",
 					data : {},
 					dataType : "json",
 					contentType : 'application/json;charset=utf-8', //设置请求头信息  
@@ -141,62 +139,50 @@
 							var tr = "";
 							for (var i = 0; i < data.length; i++) {
 								var status = "";
-								if(data[i].infoStatus=="0"){
-									status = "待审核";
-								}else if(data[i].infoStatus=="1"){
-									status = "未通过";
-								}else if(data[i].infoStatus=="2"){
-									status = "正常";
-								}else if(data[i].infoStatus=="3"){
-									status = "已删除";
+								if(data[i].relationStatus=="1"){
+									status = "未处理";
+								}else if(data[i].relationStatus=="2"){
+									status = "已录用";
+								}else if(data[i].relationStatus=="3"){
+									status = "未录用";
 								}
 								var j = Number(i)+Number(1);
 								tr += "<tr>";
 								tr += "<td>" + j + "</td>";
 								tr += "<td>" + data[i].title + "</td>";
-								tr += "<td>" + data[i].wages + "</td>";
-								tr += "<td>" + data[i].recruitNum + "</td>";
-								tr += "<td>" + data[i].signupNum + "</td>";
-								tr += "<td>" + data[i].hireNum + "</td>";
-								tr += "<td>" + data[i].startDate + "</td>";
-								tr += "<td>" + data[i].endDate + "</td>";
-								tr += "<td>" + data[i].creatDate + "</td>";
+								tr += "<td>" + data[i].userName + "</td>";
+								tr += "<td>" + data[i].age + "</td>";
+								tr += "<td>" + data[i].education + "</td>";
+								tr += "<td>" + data[i].mobile + "</td>";
 								tr += "<td>" + status + "</td>";
-								if(data[i].infoStatus=="3"){
-									tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/signup-list.jsp?id=" +  data[i].infoId + ">报名情况</a>"+
-									"<a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/edit-recruitment-info.jsp?id=" +  data[i].infoId+ ">编辑</a></td>";
-								}else if(data[i].infoStatus=="0"){
-									tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/edit-recruitment-info.jsp?id=" +  data[i].infoId+ ">编辑</a>"+
-									"<a class='remove btn btn-primary input-xs' href=javascript:deletInfo("+ data[i].infoId+")>删除</a></td>";
-								}else{
-									tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/signup-list.jsp?id=" +  data[i].infoId + ">报名情况</a>"+
-									"<a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/edit-recruitment-info.jsp?id=" +  data[i].infoId+ ">编辑</a>"+
-									"<a class='remove btn btn-primary input-xs' href=javascript:deletInfo("+ data[i].infoId+")>删除</a></td>";
+								if(data[i].relationStatus=="1"){
+									tr += "<td><a class='remove btn btn-primary input-xs' href=javascript:eidt("+ data[i].relationId+","+2+")>录用</a>"+
+									"<a class='remove btn btn-primary input-xs' href=javascript:eidt("+ data[i].relationId+","+3+")>不录用</a>"+
+									"<a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/manager/eidt-technician.jsp?id=" +  data[i].userId+ ">应聘者详情</a></td>";
 								}
-								
 								tr += "</tr>";
 							}
-							$("#infoList").append(tr);
+							$("#sigupList").append(tr);
 						} else {
-							alertError("没有招聘信息!");
+							alertError("没有应聘信息!");
 						}
 					}
 				});
 			}
 			
-		function deletInfo(infoId){
+		function eidt(relationId,status){
 			$.ajax({
         type: "get",
-        url: "<%=basePath%>info/updateInfo?infoId=" + infoId + "&infoStatus="+3+"",
+        url: "<%=basePath%>info/updateRelationStatus?relationId=" + relationId + "&relationStatus="+status+"",
 					data : {},
 					dataType : "json",
 					contentType : 'application/json;charset=utf-8', //设置请求头信息  
 					success : function(data) {
 						if(data){
-							infoList();
-							alertMessage("删除成功");
+							sigupList();
+							alertMessage("操作成功");
 						}else{
-							alertError("删除失败");
+							alertError("操作失败");
 						}
 						}
 			});

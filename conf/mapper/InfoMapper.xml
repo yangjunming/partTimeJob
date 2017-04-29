@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.job.mapper.InfoMapper">
+		<resultMap id="infoMap" type="cn.com.job.bean.InfoBean">
+				<id column="info_id" property="infoId" />
+				<result column="enterprise_id" property="enterpriseId" />
+				<result column="title" property="title" />
+				<result column="wages" property="wages" />
+				<result column="recruit_num" property="recruitNum" />
+				<result column="signupNum" property="signupNum" />
+				<result column="hireNum" property="hireNum" />
+				<result column="start_date" property="startDate" />
+				<result column="end_date" property="endDate" />
+				<result column="work_start_time" property="workStartTime" />
+				<result column="work_end_time" property="workEndTime" />
+				<result column="work_area" property="workArea" />
+				<result column="catalog_id" property="catalogId" />
+				<result column="work_describe" property="workDescribe" />
+				<result column="creat_date" property="creatDate" />
+				<result column="info_status" property="infoStatus" />
+		</resultMap>
+		<insert id="addInfo" parameterType="cn.com.job.bean.InfoBean" useGeneratedKeys="true" keyProperty="infoId">
+				insert into part_time_information
+				<trim prefix="(" suffix=")" suffixOverrides=",">
+						<if test="enterpriseId !=0 ">
+								enterprise_id,
+						</if>
+						<if test="title !=null ">
+								title,
+						</if>
+						<if test="wages !=null and wages !='' ">
+								wages,
+						</if>
+						<if test="recruitNum !=null and recruitNum !='' ">
+								recruit_num,
+						</if>
+						<if test="startDate !=null ">
+								start_date,
+						</if>
+						<if test="endDate !=null ">
+								end_date,
+						</if>
+						<if test="workStartTime !=null and workStartTime !='' ">
+								work_start_time,
+						</if>
+						<if test="workEndTime !=null and workEndTime !='' ">
+								work_end_time,
+						</if>
+						<if test="workArea !=null and workArea !='' ">
+								work_area,
+						</if>
+						<if test="catalogId !=0 ">
+								catalog_id,
+						</if>
+						<if test="workDescribe !=null and workDescribe !='' ">
+								work_describe,
+						</if>
+						creat_date
+				</trim>
+				<trim prefix="values (" suffix=")" suffixOverrides=",">
+						<if test="enterpriseId !=0 ">
+								#{enterpriseId},
+						</if>
+						<if test="title !=null ">
+								#{title},
+						</if>
+						<if test="wages !=null and wages !='' ">
+								#{wages},
+						</if>
+						<if test="recruitNum !=null and recruitNum !='' ">
+								#{recruitNum},
+						</if>
+						<if test="startDate !=null ">
+								#{startDate},
+						</if>
+						<if test="endDate !=null ">
+								#{endDate},
+						</if>
+						<if test="workStartTime !=null and workStartTime !='' ">
+								#{workStartTime},
+						</if>
+						<if test="workEndTime !=null and workEndTime !='' ">
+								#{workEndTime},
+						</if>
+						<if test="workArea !=null and workArea !='' ">
+								#{workArea},
+						</if>
+						<if test="catalogId !=0 ">
+								#{catalogId},
+						</if>
+						<if test="workDescribe !=null and workDescribe !='' ">
+								#{workDescribe},
+						</if>
+						now()
+				</trim>
+		</insert>
+		<update id="editInfo" parameterType="cn.com.job.bean.InfoBean">
+		UPDATE part_time_information
+				<trim prefix="set" suffixOverrides=",">
+						<if test="title !=null ">title=#{title},</if>
+						<if test="wages !=null ">wages=#{wages},</if>
+						<if test="recruitNum !=0 ">recruit_num=#{recruitNum},</if>
+						<if test="startDate !=null ">start_date=#{startDate},</if>
+						<if test="endDate !=null ">end_date=#{endDate},</if>
+						<if test="workStartTime !=null ">work_start_time=#{workStartTime},</if>
+						<if test="workEndTime !=null ">work_end_time=#{workEndTime},</if>
+						<if test="workArea !=null ">work_area=#{workArea},</if>
+						<if test="catalogId !=0 ">catalog_id=#{catalogId},</if>
+						<if test="workDescribe !=null ">work_describe=#{workDescribe},</if>
+						creat_date = now(),
+						info_status = 0,
+				</trim>
+				WHERE info_id=#{infoId}
+		</update>
+		<select id="getInfoListByUserId" resultMap="infoMap">
+				SELECT
+				COUNT(relation_candidate.relation_id) AS signupNum,
+				part_time_information.info_id,
+				part_time_information.enterprise_id,
+				title,
+				wages,
+				recruit_num,
+				DATE_FORMAT(start_date,
+				'%Y-%m-%d') AS start_date,
+				DATE_FORMAT(end_date, '%Y-%m-%d') AS end_date,
+				work_start_time,
+				work_end_time,
+				work_area,
+				part_time_information.catalog_id,
+				work_describe,
+				DATE_FORMAT(
+				creat_date,
+				'%Y-%m-%d %H:%i:%s'
+				) AS creat_date,
+				info_status
+				FROM
+				part_time_information
+				LEFT JOIN t_enterprise ON t_enterprise.enterprise_id =
+				part_time_information.enterprise_id
+				LEFT JOIN relation_candidate ON relation_candidate.info_id =
+				part_time_information.info_id
+				WHERE
+				user_id = #{userId}
+				GROUP BY part_time_information.info_id
+				ORDER BY creat_date DESC
+		</select>
+		<select id="hireNum" resultType="java.lang.Integer">
+				SELECT
+				COUNT(relation_id) AS hireNum
+				FROM
+				relation_candidate
+				WHERE
+				info_id =
+				#{infoId}
+				AND `status` = 2
+		</select>
+		<update id="updateInfo">
+				UPDATE part_time_information
+				SET info_status = #{infoStatus}
+				WHERE
+				info_id = #{infoId}
+		</update>
+		<select id="getsigupList" resultType="cn.com.job.bean.SigupInfoBean">
+				SELECT
+				title,
+				user_name AS userName,
+				age,
+				education,
+				mobile,
+				rc.`status` as
+				relationStatus,
+				rc.relation_id AS relationId
+				FROM
+				relation_candidate AS rc
+				LEFT JOIN part_time_information pti ON
+				pti.info_id = rc.info_id
+				LEFT JOIN t_candidate tc ON tc.candidate_id = rc.candidate_id
+				LEFT JOIN t_user ON
+				t_user.user_id = tc.user_id
+		</select>
+		<update id="updateRelationStatus">
+				UPDATE relation_candidate
+				SET `status` = #{relationStatus}
+				WHERE
+				relation_id = #{relationId}
+		</update>
+		<select id="getInfoById" resultMap="infoMap">
+				SELECT
+				part_time_information.info_id,
+				title,
+				wages,
+				recruit_num,
+				DATE_FORMAT(start_date, '%m/%d/%Y') AS start_date,
+				DATE_FORMAT(end_date, '%m/%d/%Y') AS end_date,
+				work_start_time,
+				work_end_time,
+				work_area,
+				part_time_information.catalog_id,
+				work_describe,
+				DATE_FORMAT(
+				creat_date,
+				'%Y-%m-%d %H:%i:%s'
+				) AS creat_date,
+				info_status
+				FROM
+				part_time_information
+				WHERE
+				info_id = #{infoId}
+		</select>
+</mapper>

@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.com.job.mapper.EnterpriseMapper">
+		<resultMap id="enterpriseMap" type="cn.com.job.bean.EnterpriseBean">
+				<id column="enterprise_id" property="enterpriseId" />
+				<result column="enterprise_name" property="enterpriseName" />
+				<result column="catalog_id" property="catalogId" />
+				<result column="area" property="area" />
+				<result column="describe" property="describe" />
+				<result column="user_id" property="userId" />
+		</resultMap>
 		<insert id="insert" parameterType="cn.com.job.bean.EnterpriseBean" useGeneratedKeys="true" keyProperty="enterpriseId">
 				insert into t_enterprise
 				<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -39,4 +47,12 @@
 						</if>
 				</trim>
 		</insert>
+		<select id="getInfoByUserId" resultMap="enterpriseMap">
+				SELECT
+				*
+				FROM
+				t_enterprise
+				WHERE
+				user_id = #{userId}
+		</select>
 </mapper>

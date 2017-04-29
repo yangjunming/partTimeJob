@@ -94,23 +94,6 @@
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
-		function logout(){
-			$.ajax({
-        type: "get",
-        url: "<%=basePath%>user/logout",
-				data : {},
-				dataType : "json",
-				contentType : 'application/json;charset=utf-8', //设置请求头信息  
-				success : function(data) {
-					if(data){
-						alertMessage("退出成功")
-						window.setTimeout("window.location.href='<%=basePath%>views/login.jsp'", 400);
-						} else {
-							alertError("登录失败!");
-						}
-					}
-				});
-			}
 		</script>
 </body>
 </html>

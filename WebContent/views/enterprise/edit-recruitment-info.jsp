@@ -24,8 +24,7 @@
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
-														<input id="userId" value="${sessionScope.User.userId}" hidden="">
-														<input id="enterpriseId" value="" hidden="">
+														<input id="infoId" value="${param.id}" hidden="">
 														 <img
 																src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
 												</div>
@@ -240,20 +239,28 @@
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
 		$(function enterpriseInfo(){
-			var userId = $("#userId").val();
+			var infoId = $("#infoId").val();
 			$.ajax({
         type: "get",
-        url: "<%=basePath%>enterprise/getInfoByUserId?userId="+userId+"",
+        url: "<%=basePath%>info/getInfoById?infoId="+infoId+"",
 				data : {},
 				dataType : "json",
 				contentType : 'application/json;charset=utf-8', //设置请求头信息  
 				success : function(data) {
 					console.log(data);
 					if(data !=null ){
-						$("#workArea").val(data.area);
-						$("#enterpriseId").val(data.enterpriseId);
+							$("#title").val(data.title);
+							$("#wages").val(data.wages);
+							$("#recruitNum").val(data.recruitNum);
+							$("#single_cal4").val(data.startDate);
+							$("#single_cal3").val(data.endDate);
+							$("#workStartTime").val(data.workStartTime);
+							$("#workEndTime").val(data.workEndTime);
+							$("#workArea").val(data.workArea);
+							$("#catalogId").val(data.catalogId);
+							$("#editor-one").html(data.workDescribe);
 				} else {
-					alertError("加载公司信息失败!");
+					alertError("加载信息失败!");
 				}
 			}
 		});
@@ -266,24 +273,25 @@
 			var endDate = $("#single_cal3").val();
 			startDate = formatDates(startDate);
 			endDate = formatDates(endDate);
-			var datas = {"title":$("#title").val(),"wages":$("#wages").val(),
+			var datas = {"infoId":$("#infoId").val(),"title":$("#title").val(),"wages":$("#wages").val(),
 					"recruitNum":$("#recruitNum").val(),"startDate":startDate,
 					"endDate":endDate,"workStartTime":$("#workStartTime").val(),
 					"workEndTime":$("#workEndTime").val(),"workArea":$("#workArea").val(),
 					"catalogId":$("#catalogId").val(),
-					"workDescribe":descr,"enterpriseId":$("#enterpriseId").val()}
+					"workDescribe":descr}
+			console.log(datas);
     	$.ajax({
             type: "post",
-            url: "<%=basePath%>info/addInfo",
+            url: "<%=basePath%>info/editInfo",
 						data : JSON.stringify(datas),
 						dataType : "json",
 						contentType : 'application/json;charset=utf-8', //设置请求头信息  
 						success : function(data) {
 							if(data){
-							alertMessage("添加成功!");
-              window.location.href="<%=basePath%>views/enterprise/myrecruitment-info.jsp";
+							alertMessage("修改成功!");
+							window.location.href="<%=basePath%>views/enterprise/myrecruitment-info.jsp";
 						} else {
-							alertError("添加失败!");
+							alertError("修改失败!");
 						}
 					}
 				});

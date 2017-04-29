@@ -10,4 +10,6 @@ public interface UserService {
 
 	public UserBean login(UserBean userBean);
 
+	public boolean updateUser(UserBean userBean);
+
 }

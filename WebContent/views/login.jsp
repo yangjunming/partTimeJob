@@ -126,7 +126,11 @@
 						dataType : "json",
 						contentType : 'application/json;charset=utf-8', //设置请求头信息  
 						success : function(data) {
+							console.log(data);
 							if(null != data){
+								if(data.userId==0){
+									alertError("用户名或者密码不正确!");
+								}
 								if(data.type==1){
 									window.location.href="<%=basePath%>views/manager/manager-index.jsp";
 								}else if(data.type==2){

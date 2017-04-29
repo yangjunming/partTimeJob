@@ -8,6 +8,15 @@ public class UserBean {
 	private String enterpriseName;
 	private String address;
 	private int type;
+	private int status;
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 	public int getUserId() {
 		return userId;

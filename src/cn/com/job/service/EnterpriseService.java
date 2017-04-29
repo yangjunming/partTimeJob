@@ -6,4 +6,6 @@ public interface EnterpriseService {
 
 	public int insert(EnterpriseBean enterpriseBean);
 
+	public EnterpriseBean getInfoByUserId(Integer userId);
+
 }

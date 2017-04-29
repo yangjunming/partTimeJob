@@ -6,10 +6,12 @@ import cn.com.job.bean.UserBean;
 
 public interface UserMapper {
 
-	public UserBean getUserById(@Param("userId")int uerId);
+	public UserBean getUserById(@Param("userId") int uerId);
 
 	public int insert(UserBean userBean);
 
 	public UserBean login(UserBean userBean);
+
+	public int updateUser(UserBean userBean);
 
 }

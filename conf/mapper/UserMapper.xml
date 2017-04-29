@@ -4,7 +4,7 @@
 <mapper namespace="cn.com.job.mapper.UserMapper">
 		<resultMap id="userMap" type="cn.com.job.bean.UserBean">
 				<id column="user_id" property="userId" />
-				<result column="user_name" property="userName"/>
+				<result column="user_name" property="userName" />
 				<result column="mobile" property="mobile" />
 				<result column="password" property="password" />
 				<result column="type" property="type" />
@@ -12,9 +12,9 @@
 				<result column="address" property="address" />
 		</resultMap>
 		<select id="getUserById" resultType="cn.com.job.bean.UserBean">
-				SELECT id,user_name as userName FROM user
+				SELECT user_id as userId,user_name as userName ,mobile,password FROM t_user
 				WHERE
-				id=#{userId}
+				user_id=#{userId}
 		</select>
 		<insert id="insert" parameterType="cn.com.job.bean.UserBean" useGeneratedKeys="true" keyProperty="userId">
 				insert into t_user
@@ -47,11 +47,22 @@
 						</if>
 				</trim>
 		</insert>
+		<update id="updateUser" parameterType="cn.com.job.bean.UserBean">
+				UPDATE t_user
+				<trim prefix="set" suffixOverrides=",">
+						<if test="userName !=null and userName !='' ">user_name=#{userName},</if>
+						<if test="mobile !=null and mobile !='' ">mobile=#{mobile},</if>
+						<if test="password !=null and password!='' ">password=#{password},</if>
+						<if test="status !=0 ">status=#{status},</if>
+				</trim>
+				WHERE user_id=#{userId}
+		</update>
 		<select id="login" parameterType="cn.com.job.bean.UserBean" resultMap="userMap">
 				SELECT
 				*
 				FROM
 				t_user
-				WHERE `password` = #{password} AND mobile = #{mobile}
+				WHERE `password` =
+				#{password} AND mobile = #{mobile}
 		</select>
 </mapper>

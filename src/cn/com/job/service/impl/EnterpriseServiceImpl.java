@@ -16,7 +16,16 @@ public class EnterpriseServiceImpl implements EnterpriseService {
 	@Override
 	public int insert(EnterpriseBean enterpriseBean) {
 		int result = enterpriseMapper.insert(enterpriseBean);
+		if(result>0){
+			return enterpriseBean.getEnterpriseId();
+		}
 		return 0;
+	}
+
+	@Override
+	public EnterpriseBean getInfoByUserId(Integer userId) {
+		EnterpriseBean enterpriseBean =enterpriseMapper.getInfoByUserId(userId);
+		return enterpriseBean;
 	}
 
 }
