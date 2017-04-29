@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="common.jsp"%>
+<%@ include file="../common.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,9 +8,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gentelella Alela! |</title>
+<title>企业用户!</title>
 </head>
-
 <body class="nav-md">
 		<div class="container body">
 				<div class="main_container">
@@ -25,7 +24,8 @@
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
-														<img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
+														<input id="userId" value="${sessionScope.User.userId}" hidden=""> <img
+																src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
 												</div>
 												<div class="profile_info">
 														<span>欢迎,</span>
@@ -37,12 +37,18 @@
 										<!-- sidebar menu -->
 										<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 												<div class="menu_section">
-<!-- 														<h3>General</h3> -->
+														<!-- 														<h3>General</h3> -->
 														<ul class="nav side-menu">
 																<li><a><i class="fa fa-home"></i> 个人信息管理 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
-																				<li><a href="index.html">修改个人信息</a></li>
-																				<li><a href="index2.html">修改登录密码</a></li>
+																				<li><a href="<%=basePath%>views/enterprise/eidt-personalInfo.jsp">修改个人信息</a></li>
+																				<li class="active"><a href="<%=basePath%>views/enterprise/eidt-password.jsp">修改登录密码</a></li>
+																		</ul></li>
+																<li><a><i class="fa fa-edit"></i> 招聘信息 <span class="fa fa-chevron-down"></span></a>
+																		<ul class="nav child_menu">
+																				<li><a href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">我的招聘信息</a></li>
+																				<li><a href="<%=basePath%>views/enterprise/addrecruitment-info.jsp">发布招聘信息</a></li>
+																				<!-- <li><a href="form_validation.html">Form Validation</a></li> -->
 																		</ul></li>
 														</ul>
 												</div>
@@ -66,8 +72,7 @@
 																		<span class=" fa fa-angle-down"></span>
 														</a>
 																<ul class="dropdown-menu dropdown-usermenu pull-right">
-<!-- 																		<li><a href="javascript:;"> 修改个人信息</a></li> -->
-																		<li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> 退出</a></li>
+																		<li><a href="javascript:logout()"><i class="fa fa-sign-out pull-right"></i> 退出</a></li>
 																</ul></li>
 												</ul>
 										</nav>
@@ -88,5 +93,24 @@
 		</div>
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
+		<script type="text/javascript">
+		function logout(){
+			$.ajax({
+        type: "get",
+        url: "<%=basePath%>user/logout",
+				data : {},
+				dataType : "json",
+				contentType : 'application/json;charset=utf-8', //设置请求头信息  
+				success : function(data) {
+					if(data){
+						alertMessage("退出成功")
+						window.setTimeout("window.location.href='<%=basePath%>views/login.jsp'", 400);
+						} else {
+							alertError("登录失败!");
+						}
+					}
+				});
+			}
+		</script>
 </body>
 </html>

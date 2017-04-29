@@ -37,4 +37,9 @@ public class UserServiceImpl implements UserService {
 		return result>0;
 	}
 
+	@Override
+	public UserBean login(UserBean userBean) {
+		return userMapper.login(userBean);
+	}
+
 }

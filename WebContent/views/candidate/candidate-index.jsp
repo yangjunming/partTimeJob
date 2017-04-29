@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="common.jsp"%>
+<%@ include file="../common.jsp"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,10 +8,10 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gentelella Alela! |</title>
+<title>兼职人员!</title>
 </head>
 
-<body class="nav-md">
+<body class="nav-sm">
 		<div class="container body">
 				<div class="main_container">
 						<div class="col-md-3 left_col">
@@ -67,7 +67,7 @@
 														</a>
 																<ul class="dropdown-menu dropdown-usermenu pull-right">
 <!-- 																		<li><a href="javascript:;"> 修改个人信息</a></li> -->
-																		<li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> 退出</a></li>
+																		<li><a href="javascript:logout()"><i class="fa fa-sign-out pull-right"></i> 退出</a></li>
 																</ul></li>
 												</ul>
 										</nav>
@@ -88,5 +88,24 @@
 		</div>
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
+		<script type="text/javascript">
+		function logout(){
+			$.ajax({
+        type: "get",
+        url: "<%=basePath%>user/logout",
+				data : {},
+				dataType : "json",
+				contentType : 'application/json;charset=utf-8', //设置请求头信息  
+				success : function(data) {
+					if(data){
+						alertMessage("退出成功")
+						window.setTimeout("window.location.href='<%=basePath%>views/login.jsp'",400);
+				} else {
+					alertError("登录失败!");
+				}
+			}
+		});
+		}
+		</script>
 </body>
 </html>

@@ -4,6 +4,7 @@ public class UserBean {
 	private int userId;
 	private String mobile;
 	private String password;
+	private String userName;
 	private String enterpriseName;
 	private String address;
 	private int type;
@@ -55,8 +56,6 @@ public class UserBean {
 	public void setType(int type) {
 		this.type = type;
 	}
-
-	private String userName;
 
 	public String getUserName() {
 		return userName;

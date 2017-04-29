@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.com.job.mapper.UserMapper">
+		<resultMap id="userMap" type="cn.com.job.bean.UserBean">
+				<id column="user_id" property="userId" />
+				<result column="user_name" property="userName"/>
+				<result column="mobile" property="mobile" />
+				<result column="password" property="password" />
+				<result column="type" property="type" />
+				<result column="enterprise_name" property="enterpriseName" />
+				<result column="address" property="address" />
+		</resultMap>
 		<select id="getUserById" resultType="cn.com.job.bean.UserBean">
 				SELECT id,user_name as userName FROM user
 				WHERE
@@ -38,4 +47,11 @@
 						</if>
 				</trim>
 		</insert>
+		<select id="login" parameterType="cn.com.job.bean.UserBean" resultMap="userMap">
+				SELECT
+				*
+				FROM
+				t_user
+				WHERE `password` = #{password} AND mobile = #{mobile}
+		</select>
 </mapper>

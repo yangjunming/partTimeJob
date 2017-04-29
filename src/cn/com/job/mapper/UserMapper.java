@@ -10,4 +10,6 @@ public interface UserMapper {
 
 	public int insert(UserBean userBean);
 
+	public UserBean login(UserBean userBean);
+
 }

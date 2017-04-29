@@ -8,4 +8,6 @@ public interface UserService {
 
 	public boolean registerUser(UserBean userBean);
 
+	public UserBean login(UserBean userBean);
+
 }
