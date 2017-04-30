@@ -37,19 +37,25 @@
 										<!-- sidebar menu -->
 										<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 												<div class="menu_section">
-														<!-- 														<h3>General</h3> -->
+<!-- 														<h3>General</h3> -->
 														<ul class="nav side-menu">
 																<li><a><i class="fa fa-home"></i> 个人信息管理 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
-																				<li><a href="<%=basePath%>views/enterprise/edit-personalInfo.jsp">修改个人信息</a></li>
-																				<li><a href="<%=basePath%>views/enterprise/edit-password.jsp">修改登录密码</a></li>
-																		</ul></li>
-																<li><a><i class="fa fa-edit"></i> 招聘信息 <span class="fa fa-chevron-down"></span></a>
+																				<li><a href="<%=basePath%>views/manager/edit-personalInfo.jsp">修改个人信息</a></li>
+																				<li><a href="<%=basePath%>views/manager/edit-password.jsp">修改登录密码</a></li>
+																		</ul>
+																	</li>
+																	<li><a><i class="fa fa-edit"></i>人员管理 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
-																				<li class="active"><a href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">我的招聘信息</a></li>
-																				<li><a href="<%=basePath%>views/enterprise/addrecruitment-info.jsp">发布招聘信息</a></li>
-																				<!-- <li><a href="form_validation.html">Form Validation</a></li> -->
-																		</ul></li>
+																				<li><a href="<%=basePath%>views/manager/user-list.jsp">人员列表</a></li>
+																		</ul>
+																	</li>
+																	<li class="active"><a><i class="fa fa-desktop"></i>系统管理 <span class="fa fa-chevron-down"></span></a>
+																		<ul class="nav child_menu">
+																				<li><a href="<%=basePath%>views/manager/system-message.jsp">系统公告</a></li>
+																				<li><a href="<%=basePath%>views/manager/info-list.jsp">兼职信息管理</a></li>
+																		</ul>
+																	</li>
 														</ul>
 												</div>
 										</div>

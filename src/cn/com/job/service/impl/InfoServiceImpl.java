@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.com.job.bean.InfoBean;
+import cn.com.job.bean.RelationBean;
 import cn.com.job.bean.SigupInfoBean;
 import cn.com.job.mapper.InfoMapper;
 import cn.com.job.service.InfoService;
@@ -74,6 +75,26 @@ public class InfoServiceImpl implements InfoService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public List<InfoBean> getInfoListByStatus(Integer status,String search) {
+		List<InfoBean> list = infoMapper.getInfoListByStatus(status,search);
+		return list;
+	}
+
+	@Override
+	public boolean signup(RelationBean relationBean) {
+		int result = infoMapper.signup(relationBean);
+		if(result>0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public RelationBean getRelation(RelationBean relationBean) {
+		return infoMapper.getRelation(relationBean);
 	}
 	
 }

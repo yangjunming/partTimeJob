@@ -17,6 +17,15 @@ public class InfoBean {
 	private String workDescribe;
 	private String creatDate;
 	private int infoStatus;
+	private String enterpriseName;
+
+	public String getEnterpriseName() {
+		return enterpriseName;
+	}
+
+	public void setEnterpriseName(String enterpriseName) {
+		this.enterpriseName = enterpriseName;
+	}
 
 	public int getSignupNum() {
 		return signupNum;

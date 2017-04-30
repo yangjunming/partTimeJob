@@ -1,5 +1,7 @@
 package cn.com.job.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,21 @@ public class EnterpriseServiceImpl implements EnterpriseService {
 	public EnterpriseBean getInfoByUserId(Integer userId) {
 		EnterpriseBean enterpriseBean =enterpriseMapper.getInfoByUserId(userId);
 		return enterpriseBean;
+	}
+
+	@Override
+	public List<EnterpriseBean> getEnterpriseList() {
+		List<EnterpriseBean> list = enterpriseMapper.getEnterpriseList();
+		return list;
+	}
+
+	@Override
+	public boolean update(EnterpriseBean enterpriseBean) {
+		int result = enterpriseMapper.update(enterpriseBean);
+		if(result>0){
+			return true;
+		}
+		return false;
 	}
 
 }

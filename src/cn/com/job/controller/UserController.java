@@ -1,6 +1,7 @@
 package cn.com.job.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.com.job.bean.UserBean;
+import cn.com.job.bean.UserResBean;
 import cn.com.job.service.UserService;
 
 @Controller
@@ -23,8 +25,8 @@ public class UserController {
 
 	@RequestMapping("/getUserById")
 	@ResponseBody
-	public UserBean getUserById(@RequestParam int userId) {
-		UserBean userBean = userService.getUserById(userId);
+	public UserResBean getUserById(@RequestParam int userId) {
+		UserResBean userBean = userService.getUserById(userId);
 		return userBean;
 	}
 
@@ -75,6 +77,7 @@ public class UserController {
 
 	/**
 	 * 修改密码
+	 * 
 	 * @param userId
 	 * @param oldPassword
 	 * @param newPassword
@@ -84,9 +87,9 @@ public class UserController {
 	@RequestMapping("/editPassword")
 	@ResponseBody
 	public Object editPassword(@RequestParam Integer userId, @RequestParam String oldPassword,
-			@RequestParam String newPassword,HttpServletRequest request) {
+			@RequestParam String newPassword, HttpServletRequest request) {
 		HashMap<String, String> map = new HashMap<>();
-		UserBean userBean = userService.getUserById(userId);
+		UserResBean userBean = userService.getUserById(userId);
 		if (null == userBean) {
 			map.put("falg", "0");
 			map.put("message", "用户失效,请重新登录");
@@ -97,7 +100,7 @@ public class UserController {
 			map.put("message", "旧密码不正确,请重新输入");
 			return map;
 		}
-		UserBean userbean = new UserBean();
+		UserResBean userbean = new UserResBean();
 		userbean.setUserId(userId);
 		userbean.setPassword(newPassword);
 		boolean result = userService.updateUser(userbean);
@@ -112,15 +115,16 @@ public class UserController {
 		}
 		return map;
 	}
-	
+
 	/**
 	 * 修改人员信息
+	 * 
 	 * @param userBean
 	 * @return
 	 */
 	@RequestMapping("/editUserInfo")
 	@ResponseBody
-	public Object editUserInfo(@RequestBody UserBean userBean){
+	public Object editUserInfo(@RequestBody UserResBean userBean) {
 		HashMap<String, String> map = new HashMap<>();
 		if (null == userBean) {
 			map.put("falg", "0");
@@ -141,6 +145,14 @@ public class UserController {
 			map.put("message", "修改失败");
 		}
 		return map;
+	}
+
+	@RequestMapping("/getuserList")
+	@ResponseBody
+	public List<UserBean> getuserList(@RequestParam Integer status, @RequestParam String userName,
+			@RequestParam String mobile,@RequestParam Integer type) {
+		List<UserBean> list = userService.getuserList(status,userName,mobile,type);
+		return list;
 	}
 
 }

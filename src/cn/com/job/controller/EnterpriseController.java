@@ -1,5 +1,8 @@
 package cn.com.job.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +29,13 @@ public class EnterpriseController {
 		enterpriseBean = enterpriseService.getInfoByUserId(userId);
 		return enterpriseBean;
 	}
-
+	
+	@RequestMapping("/getEnterpriseList")
+	@ResponseBody
+	public List<EnterpriseBean> getEnterpriseList(){
+		List<EnterpriseBean> list = new ArrayList<>();
+		list = enterpriseService.getEnterpriseList();
+		return list;
+	}
+	
 }

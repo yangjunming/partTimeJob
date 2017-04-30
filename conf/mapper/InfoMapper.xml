@@ -19,6 +19,7 @@
 				<result column="work_describe" property="workDescribe" />
 				<result column="creat_date" property="creatDate" />
 				<result column="info_status" property="infoStatus" />
+				<result column="enterprise_name" property="enterpriseName" />
 		</resultMap>
 		<insert id="addInfo" parameterType="cn.com.job.bean.InfoBean" useGeneratedKeys="true" keyProperty="infoId">
 				insert into part_time_information
@@ -96,7 +97,7 @@
 				</trim>
 		</insert>
 		<update id="editInfo" parameterType="cn.com.job.bean.InfoBean">
-		UPDATE part_time_information
+				UPDATE part_time_information
 				<trim prefix="set" suffixOverrides=",">
 						<if test="title !=null ">title=#{title},</if>
 						<if test="wages !=null ">wages=#{wages},</if>
@@ -188,6 +189,7 @@
 		<select id="getInfoById" resultMap="infoMap">
 				SELECT
 				part_time_information.info_id,
+				enterprise_name,
 				title,
 				wages,
 				recruit_num,
@@ -201,11 +203,86 @@
 				DATE_FORMAT(
 				creat_date,
 				'%Y-%m-%d %H:%i:%s'
-				) AS creat_date,
+				)
+				AS creat_date,
 				info_status
 				FROM
 				part_time_information
+				LEFT JOIN t_enterprise ON t_enterprise.enterprise_id = part_time_information.enterprise_id
 				WHERE
 				info_id = #{infoId}
+		</select>
+		<select id="getInfoListByStatus" resultMap="infoMap">
+				SELECT
+				enterprise_name,
+				part_time_information.info_id,
+				part_time_information.enterprise_id,
+				title,
+				wages,
+				recruit_num,
+				DATE_FORMAT(start_date, '%Y-%m-%d') AS start_date,
+				DATE_FORMAT(end_date, '%Y-%m-%d') AS end_date,
+				work_start_time,
+				work_end_time,
+				work_area,
+				part_time_information.catalog_id,
+				work_describe,
+				DATE_FORMAT(
+				creat_date,
+				'%Y-%m-%d %H:%i:%s'
+				)
+				AS creat_date,
+				info_status
+				FROM
+				part_time_information
+				LEFT JOIN t_enterprise ON t_enterprise.enterprise_id =
+				part_time_information.enterprise_id
+				WHERE
+				info_status = #{status}
+				<if test="search !=null and search !='' ">
+						AND (enterprise_name LIKE CONCAT("%",#{search},"%")
+						OR title LIKE CONCAT("%",#{search},"%")
+						OR work_area LIKE CONCAT("%",#{search},"%")
+						OR work_describe LIKE CONCAT("%",#{search},"%"))
+				</if>
+				ORDER BY
+				creat_date DESC
+		</select>
+		<insert id="signup" parameterType="cn.com.job.bean.RelationBean">
+				insert into relation_candidate
+				<trim prefix="(" suffix=")" suffixOverrides=",">
+						<if test="candidateId !=0 ">
+								candidate_id,
+						</if>
+						<if test="infoId !=0 ">
+								info_id,
+						</if>
+				</trim>
+				<trim prefix="values (" suffix=")" suffixOverrides=",">
+						<if test="candidateId !=0 ">
+								#{candidateId},
+						</if>
+						<if test="infoId !=0 ">
+								#{infoId},
+						</if>
+				</trim>
+		</insert>
+		<select id="getRelation" parameterType="cn.com.job.bean.RelationBean" resultType="cn.com.job.bean.RelationBean">
+				SELECT
+				relation_id AS relationId,
+				candidate_id AS candidateId,
+				info_id AS infoId,
+				`status`
+				FROM
+				relation_candidate
+				<where>
+						<if test="candidateId !=0 ">
+								and candidate_id = #{candidateId}
+						</if>
+						<if test="infoId !=0 ">
+								and info_id = #{infoId}
+						</if>
+				</where>
+				LIMIT 0,1
 		</select>
 </mapper>

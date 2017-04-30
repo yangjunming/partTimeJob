@@ -136,7 +136,7 @@
 								}else if(data.type==2){
 									window.location.href="<%=basePath%>views/enterprise/enterprise-index.jsp";
 								}else if(data.type==3){
-									window.location.href="<%=basePath%>views/enterprise/enterprise-index.jsp";
+									window.location.href="<%=basePath%>views/candidate/candidate-index.jsp";
 								}
 						} else {
 							alertError("登录失败!");

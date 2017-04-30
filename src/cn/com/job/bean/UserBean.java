@@ -74,4 +74,15 @@ public class UserBean {
 		this.userName = userName;
 	}
 
+	public UserBean(UserResBean userBean) {
+		this.userId = userBean.getUserId();
+		this.userName = userBean.getUserName();
+		this.mobile = userBean.getMobile();
+		this.password = userBean.getPassword();
+		this.status = userBean.getStatus();
+	}
+
+	public UserBean() {
+	}
+
 }

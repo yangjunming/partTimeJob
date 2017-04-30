@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>企业用户!</title>
+<title>兼职人员!</title>
 </head>
 <body class="nav-md">
 		<div class="container body">
@@ -37,18 +37,12 @@
 										<!-- sidebar menu -->
 										<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 												<div class="menu_section">
-														<!-- 														<h3>General</h3> -->
 														<ul class="nav side-menu">
-																<li><a><i class="fa fa-home"></i> 个人信息管理 <span class="fa fa-chevron-down"></span></a>
+														<li><a href="<%=basePath%>views/candidate/candidate-index.jsp"><i class="fa fa-home"></i>首页 <span class="fa fa-chevron-down"></span></a></li>
+																<li><a><i class="fa fa-edit"></i>个人信息管理</a>
 																		<ul class="nav child_menu">
-																				<li><a href="<%=basePath%>views/enterprise/eidt-personalInfo.jsp">修改个人信息</a></li>
-																				<li class="active"><a href="<%=basePath%>views/enterprise/eidt-password.jsp">修改登录密码</a></li>
-																		</ul></li>
-																<li><a><i class="fa fa-edit"></i> 招聘信息 <span class="fa fa-chevron-down"></span></a>
-																		<ul class="nav child_menu">
-																				<li><a href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">我的招聘信息</a></li>
-																				<li><a href="<%=basePath%>views/enterprise/addrecruitment-info.jsp">发布招聘信息</a></li>
-																				<!-- <li><a href="form_validation.html">Form Validation</a></li> -->
+																				<li><a href="<%=basePath%>views/candidate/edit-personalInfo.jsp">修改个人信息</a></li>
+																				<li><a href="<%=basePath%>views/candidate/edit-password.jsp">修改登录密码</a></li>
 																		</ul></li>
 														</ul>
 												</div>

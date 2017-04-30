@@ -43,8 +43,8 @@
 														<ul class="nav side-menu">
 																<li><a><i class="fa fa-home"></i> 个人信息管理 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
-																				<li><a href="<%=basePath%>views/enterprise/eidt-personalInfo.jsp">修改个人信息</a></li>
-																				<li><a href="<%=basePath%>views/enterprise/eidt-password.jsp">修改登录密码</a></li>
+																				<li><a href="<%=basePath%>views/enterprise/edit-personalInfo.jsp">修改个人信息</a></li>
+																				<li><a href="<%=basePath%>views/enterprise/edit-password.jsp">修改登录密码</a></li>
 																		</ul></li>
 																<li><a><i class="fa fa-edit"></i> 招聘信息 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
@@ -278,7 +278,7 @@
 						data : JSON.stringify(datas),
 						dataType : "json",
 						contentType : 'application/json;charset=utf-8', //设置请求头信息  
-						success : function(data) {
+						success : function(data){
 							if(data){
 							alertMessage("添加成功!");
               window.location.href="<%=basePath%>views/enterprise/myrecruitment-info.jsp";

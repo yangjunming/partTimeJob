@@ -9,6 +9,8 @@
 				<result column="area" property="area" />
 				<result column="describe" property="describe" />
 				<result column="user_id" property="userId" />
+				<result column="user_name" property="userName" />
+				<result column="mobile" property="mobile" />
 		</resultMap>
 		<insert id="insert" parameterType="cn.com.job.bean.EnterpriseBean" useGeneratedKeys="true" keyProperty="enterpriseId">
 				insert into t_enterprise
@@ -55,4 +57,29 @@
 				WHERE
 				user_id = #{userId}
 		</select>
+		<select id="getEnterpriseList" resultMap="enterpriseMap">
+				SELECT
+				enterprise_id,
+				enterprise_name,
+				t_enterprise.user_id,
+				area,
+				`describe`,
+				user_name,
+				mobile
+				FROM
+				t_enterprise
+				LEFT JOIN t_user ON t_user.user_id = t_enterprise.user_id
+				ORDER BY
+				create_date DESC
+		</select>
+		<update id="update" parameterType="cn.com.job.bean.EnterpriseBean">
+				UPDATE t_enterprise
+				<trim prefix="set" suffixOverrides=",">
+						<if test="enterpriseName !=null and enterpriseName !='' ">enterprise_name=#{enterpriseName},</if>
+						<if test="area !=null and area !='' ">area=#{area},</if>
+						<if test="describe !=null and describe !='' ">`describe`=#{describe},</if>
+						<if test="catalogId !=0 ">catalog_id=#{catalogId},</if>
+				</trim>
+				WHERE enterprise_id=#{enterpriseId}
+		</update>
 </mapper>

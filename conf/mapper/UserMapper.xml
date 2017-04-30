@@ -11,10 +11,31 @@
 				<result column="enterprise_name" property="enterpriseName" />
 				<result column="address" property="address" />
 		</resultMap>
-		<select id="getUserById" resultType="cn.com.job.bean.UserBean">
-				SELECT user_id as userId,user_name as userName ,mobile,password FROM t_user
+		<select id="getUserById" resultType="cn.com.job.bean.UserResBean">
+				SELECT
+				t_user.user_id AS userId,
+				user_name AS userName,
+				mobile,
+				password,
+				type,
+				enterprise_id AS enterpriseId,
+				enterprise_name AS enterpriseName,
+				area,
+				t_enterprise.`describe` AS enterpriseDescribe,
+				gender,
+				candidate_id AS candidateId,
+				age,
+				education,
+				t_candidate.`describe` AS candidateDescribe,
+				t_candidate.`status` AS
+				candidateStatus
+				FROM
+				t_user
+				LEFT JOIN t_enterprise ON t_enterprise.user_id = t_user.user_id
+				LEFT JOIN t_candidate ON
+				t_candidate.user_id=t_user.user_id
 				WHERE
-				user_id=#{userId}
+				t_user.user_id=#{userId}
 		</select>
 		<insert id="insert" parameterType="cn.com.job.bean.UserBean" useGeneratedKeys="true" keyProperty="userId">
 				insert into t_user
@@ -64,5 +85,40 @@
 				t_user
 				WHERE `password` =
 				#{password} AND mobile = #{mobile}
+				AND `status` = 1
+		</select>
+		<select id="getCandidateByUserId" resultType="cn.com.job.bean.CandidateBean">
+				SELECT
+				candidate_id AS candidateId,
+				user_id AS userId,
+				gender,
+				age,
+				education,
+				`describe`,
+				`status`
+				FROM
+				t_candidate
+				WHERE
+				user_id = #{userId}
+		</select>
+		<select id="getuserList" resultMap="userMap">
+				SELECT
+				*
+				FROM
+				t_user
+				<where>
+						<if test="status !=0 ">
+								and `status` = #{status}
+						</if>
+						<if test="type !=0 ">
+								and type = #{type}
+						</if>
+						<if test="mobile !=null and mobile !='' ">
+								and mobile LIKE CONCAT("%",#{mobile},"%")
+						</if>
+						<if test="userName !=null and userName !='' ">
+								and user_name LIKE CONCAT("%",#{userName},"%")
+						</if>
+				</where>
 		</select>
 </mapper>

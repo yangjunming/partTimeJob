@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>企业用户!</title>
+<title>兼职人员!</title>
 </head>
 <body class="nav-md">
 		<div class="container body">
@@ -16,16 +16,15 @@
 						<div class="col-md-3 left_col">
 								<div class="left_col scroll-view">
 										<div class="navbar nav_title" style="border: 0;">
-												<!--               <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a> -->
 										</div>
-
 										<div class="clearfix"></div>
 
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
-														<input id="userId" value="${sessionScope.User.userId}" hidden=""> <img
-																src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
+														<input id="userId" value="${sessionScope.User.userId}" hidden=""> 
+														<input id="candidateId" hidden=""> 
+														<img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
 												</div>
 												<div class="profile_info">
 														<span>欢迎,</span>
@@ -37,18 +36,12 @@
 										<!-- sidebar menu -->
 										<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 												<div class="menu_section">
-														<!-- 														<h3>General</h3> -->
 														<ul class="nav side-menu">
-																<li><a><i class="fa fa-home"></i> 个人信息管理 <span class="fa fa-chevron-down"></span></a>
+														<li><a href="<%=basePath%>views/candidate/candidate-index.jsp"><i class="fa fa-home"></i>首页 <span class="fa fa-chevron-down"></span></a></li>
+																<li><a><i class="fa fa-edit"></i>个人信息管理</a>
 																		<ul class="nav child_menu">
-																				<li class="active"><a href="<%=basePath%>views/enterprise/eidt-personalInfo.jsp">修改个人信息</a></li>
-																				<li><a href="<%=basePath%>views/enterprise/eidt-password.jsp">修改登录密码</a></li>
-																		</ul></li>
-																<li><a><i class="fa fa-edit"></i> 招聘信息 <span class="fa fa-chevron-down"></span></a>
-																		<ul class="nav child_menu">
-																				<li class="active"><a href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">我的招聘信息</a></li>
-																				<li><a href="<%=basePath%>views/enterprise/addrecruitment-info.jsp">发布招聘信息</a></li>
-																				<!-- <li><a href="form_validation.html">Form Validation</a></li> -->
+																				<li><a href="<%=basePath%>views/candidate/edit-personalInfo.jsp">修改个人信息</a></li>
+																				<li><a href="<%=basePath%>views/candidate/edit-password.jsp">修改登录密码</a></li>
 																		</ul></li>
 														</ul>
 												</div>
@@ -103,6 +96,34 @@
                            <input type="text" class="form-control" value="" id="mobile">
                         </div>
                       </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">性别</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <select class="form-control" id="gender">
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                            <option value="3">保密</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">年龄</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                           <input type="text" class="form-control" value="" id="age">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">学历</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                           <input type="text" class="form-control" value="" id="education">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">自我描述/介绍</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                           <textarea type="text" class="form-control" value="" id="describe"></textarea>
+                        </div>
+                      </div>
                      <div class="col-md-12 col-sm-12 col-xs-12">
                       <div class="ln_solid"></div>
                       <div class="form-group">
@@ -134,12 +155,19 @@
 				success : function(data) {
 					$("#userName").val(data.userName);
 					$("#mobile").val(data.mobile);
+					$("#gender").val(data.gender);
+					$("#age").val(data.age);
+					$("#education").val(data.education);
+					$("#describe").val(data.candidateDescribe);
+					$("#candidateId").val(data.candidateId);
 			}
 		});
 		})
 		function save(){
 			var userId =$("#userId").val();
-			var datas = {"userId":userId,"userName":$("#userName").val(),"mobile":$("#mobile").val()}
+			var datas = {"userId":userId,"userName":$("#userName").val(),"mobile":$("#mobile").val(),
+					"gender":$("#gender").val(),"age":$("#age").val(),"education":$("#education").val(),
+					"candidateDescribe":$("#describe").val(),"candidateId":$("#candidateId").val(),"type":3}
 			$.ajax({
         type: "post",
         url: "<%=basePath%>user/editUserInfo",
@@ -150,7 +178,7 @@
 					console.log(data);
 					if(data.falg =='1' ){
 						alertMessage(data.message);
-<%-- 						window.setTimeout("window.location.href='<%=basePath%>views/login.jsp'", 400); --%>
+						window.setTimeout("window.location.href='<%=basePath%>views/candidate/candidate-index.jsp'", 400);
 				} else {
 					alertError(data.message);
 				}

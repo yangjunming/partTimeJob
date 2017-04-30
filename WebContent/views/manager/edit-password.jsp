@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>管理员!</title>
+<title>兼职人员!</title>
 </head>
 <body class="nav-md">
 		<div class="container body">
@@ -24,7 +24,8 @@
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
-														<img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
+														<input id="userId" value="${sessionScope.User.userId}" hidden="">
+														 <img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
 												</div>
 												<div class="profile_info">
 														<span>欢迎,</span>
@@ -38,7 +39,7 @@
 												<div class="menu_section">
 <!-- 														<h3>General</h3> -->
 														<ul class="nav side-menu">
-																<li><a><i class="fa fa-home"></i> 个人信息管理 <span class="fa fa-chevron-down"></span></a>
+																<li class="active"><a><i class="fa fa-home"></i> 个人信息管理 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
 																				<li><a href="<%=basePath%>views/manager/edit-personalInfo.jsp">修改个人信息</a></li>
 																				<li><a href="<%=basePath%>views/manager/edit-password.jsp">修改登录密码</a></li>
@@ -77,7 +78,6 @@
 																		<span class=" fa fa-angle-down"></span>
 														</a>
 																<ul class="dropdown-menu dropdown-usermenu pull-right">
-<!-- 																		<li><a href="javascript:;"> 修改个人信息</a></li> -->
 																		<li><a href="javascript:logout()"><i class="fa fa-sign-out pull-right"></i> 退出</a></li>
 																</ul></li>
 												</ul>
@@ -89,17 +89,99 @@
 						<!-- page content -->
 						<div></div>
 						<!-- /page content -->
-						<div class="right_col" role="main"></div>
+						<div class="right_col" role="main">
+						<div class="x_panel">
+                  <div class="x_title">
+                    <h2>修改密码 </h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">旧密码</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                           <input type="password" class="form-control" value="" id="oldPassword">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">新密码</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                           <input type="password" class="form-control" value="" id="newPassword">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">确认新密码</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                           <input type="password" class="form-control" value="" id="confirmPassword">
+                        </div>
+                      </div>
+                     <div class="col-md-12 col-sm-12 col-xs-12">
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
+                          <a type="button" class="btn btn-primary" href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">取消</a>
+                          <a class="btn btn-success" href="javascript:save();">提交</a>
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+                </div>
 						<!-- footer content -->
-						<footer>
-								<div class="clearfix"></div>
-						</footer>
 						<!-- /footer content -->
 				</div>
 		</div>
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
+		function save(){
+			var oldPassword =$("#oldPassword").val();
+			var newPassword =$("#newPassword").val();
+			var confirmPassword =$("#confirmPassword").val();
+			if(oldPassword == null || oldPassword==''){
+				alertInfo("旧密码不能为空");
+				return;
+			}
+			if(newPassword == null || newPassword==''){
+				alertInfo("新密码不能为空");
+				return;
+			}
+			if(confirmPassword == null || confirmPassword==''){
+				alertInfo("确认密码不能为空");
+				return;
+			}
+			if(oldPassword == newPassword){
+				alertInfo("新密码与旧密码相同");
+				return;
+			}
+			if(confirmPassword != newPassword){
+				alertInfo("新密码与确认密码不相同");
+				return;
+			}
+			var userId =$("#userId").val();
+			console.log(userId);
+			if(null ==userId || userId == ''){
+				alertInfo("用户登录信息过期,请重新登录");
+				return;
+			}
+			$.ajax({
+        type: "get",
+        url: "<%=basePath%>user/editPassword?userId="+userId+"&oldPassword="+oldPassword+"&newPassword="+newPassword+"",
+				data : {},
+				dataType : "json",
+				contentType : 'application/json;charset=utf-8', //设置请求头信息  
+				success : function(data) {
+					if(data.falg =='1' ){
+						alertMessage(data.message);
+						window.setTimeout("window.location.href='<%=basePath%>views/login.jsp'", 400);
+				} else {
+					alertError(data.message);
+				}
+			}
+		});
+		}
 		</script>
 </body>
 </html>

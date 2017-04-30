@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import cn.com.job.bean.InfoBean;
+import cn.com.job.bean.RelationBean;
 import cn.com.job.bean.SigupInfoBean;
 
 public interface InfoMapper {
@@ -24,5 +25,11 @@ public interface InfoMapper {
 	public InfoBean getInfoById(@Param("infoId")Integer infoId);
 
 	public int editInfo(InfoBean infoBean);
+
+	public List<InfoBean> getInfoListByStatus(@Param("status")Integer status,@Param("search")String search);
+
+	public int signup(RelationBean relationBean);
+
+	public RelationBean getRelation(RelationBean relationBean);
 
 }
