@@ -285,4 +285,43 @@
 				</where>
 				LIMIT 0,1
 		</select>
+		<select id="getInfoList" parameterType="cn.com.job.bean.InfoBean" resultMap="infoMap">
+		  SELECT
+				enterprise_name,
+				part_time_information.info_id,
+				part_time_information.enterprise_id,
+				title,
+				wages,
+				recruit_num,
+				DATE_FORMAT(start_date, '%Y-%m-%d') AS start_date,
+				DATE_FORMAT(end_date, '%Y-%m-%d') AS end_date,
+				work_start_time,
+				work_end_time,
+				work_area,
+				part_time_information.catalog_id,
+				work_describe,
+				DATE_FORMAT(
+				creat_date,
+				'%Y-%m-%d %H:%i:%s'
+				)
+				AS creat_date,
+				info_status
+				FROM
+				part_time_information
+				LEFT JOIN t_enterprise ON t_enterprise.enterprise_id =
+				part_time_information.enterprise_id
+				<where>
+				<if test="infoStatus !=0 ">
+				and info_status = #{infoStatus}
+				</if>
+				<if test="search !=null and search !='' ">
+						AND (enterprise_name LIKE CONCAT("%",#{search},"%")
+						OR title LIKE CONCAT("%",#{search},"%")
+						OR work_area LIKE CONCAT("%",#{search},"%")
+						OR work_describe LIKE CONCAT("%",#{search},"%"))
+				</if>
+				</where>
+				ORDER BY
+				creat_date DESC
+		</select>
 </mapper>

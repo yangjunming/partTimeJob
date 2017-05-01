@@ -18,6 +18,15 @@ public class InfoBean {
 	private String creatDate;
 	private int infoStatus;
 	private String enterpriseName;
+	private String search;
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
 
 	public String getEnterpriseName() {
 		return enterpriseName;

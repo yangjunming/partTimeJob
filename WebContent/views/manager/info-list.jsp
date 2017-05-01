@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>企业用户!</title>
+<title>管理员!</title>
 </head>
 <body class="nav-md">
 		<div class="container body">
@@ -101,10 +101,9 @@
 																		<tr>
 																				<th>#</th>
 																				<th>标题</th>
+																				<th>公司</th>
 																				<th>工资</th>
 																				<th>招聘人数</th>
-																				<th>报名数</th>
-																				<th>已录数</th>
 																				<th>开始日期</th>
 																				<th>结束日期</th>
 																				<th>发布时间</th>
@@ -135,14 +134,15 @@
 		});
 		function infoList(){
 			$("#infoList tr").remove();
-			var userId = $("#userId").val();
+			var datas = {"title":""};
 			$.ajax({
-        type: "get",
-        url: "<%=basePath%>info/getInfoListByUserId?userId=" + userId + "",
-					data : {},
+        type: "post",
+        url: "<%=basePath%>info/getInfoList",
+					data : JSON.stringify(datas),
 					dataType : "json",
 					contentType : 'application/json;charset=utf-8', //设置请求头信息  
 					success : function(data) {
+						console.log(data);
 						if (data.length>0) {
 							var tr = "";
 							for (var i = 0; i < data.length; i++) {
@@ -160,26 +160,14 @@
 								tr += "<tr>";
 								tr += "<td>" + j + "</td>";
 								tr += "<td>" + data[i].title + "</td>";
+								tr += "<td>" + data[i].enterpriseName + "</td>";
 								tr += "<td>" + data[i].wages + "</td>";
 								tr += "<td>" + data[i].recruitNum + "</td>";
-								tr += "<td>" + data[i].signupNum + "</td>";
-								tr += "<td>" + data[i].hireNum + "</td>";
 								tr += "<td>" + data[i].startDate + "</td>";
 								tr += "<td>" + data[i].endDate + "</td>";
 								tr += "<td>" + data[i].creatDate + "</td>";
 								tr += "<td>" + status + "</td>";
-								if(data[i].infoStatus=="3"){
-									tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/signup-list.jsp?id=" +  data[i].infoId + ">报名情况</a>"+
-									"<a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/edit-recruitment-info.jsp?id=" +  data[i].infoId+ ">编辑</a></td>";
-								}else if(data[i].infoStatus=="0"){
-									tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/edit-recruitment-info.jsp?id=" +  data[i].infoId+ ">编辑</a>"+
-									"<a class='remove btn btn-primary input-xs' href=javascript:deletInfo("+ data[i].infoId+")>删除</a></td>";
-								}else{
-									tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/signup-list.jsp?id=" +  data[i].infoId + ">报名情况</a>"+
-									"<a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/edit-recruitment-info.jsp?id=" +  data[i].infoId+ ">编辑</a>"+
-									"<a class='remove btn btn-primary input-xs' href=javascript:deletInfo("+ data[i].infoId+")>删除</a></td>";
-								}
-								
+								tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/manager/edit-infostatus.jsp?id=" +  data[i].infoId+ ">详情</a></td>";
 								tr += "</tr>";
 							}
 							$("#infoList").append(tr);
@@ -190,23 +178,6 @@
 				});
 			}
 			
-		function deletInfo(infoId){
-			$.ajax({
-        type: "get",
-        url: "<%=basePath%>info/updateInfo?infoId=" + infoId + "&infoStatus="+3+"",
-					data : {},
-					dataType : "json",
-					contentType : 'application/json;charset=utf-8', //设置请求头信息  
-					success : function(data) {
-						if(data){
-							infoList();
-							alertMessage("删除成功");
-						}else{
-							alertError("删除失败");
-						}
-						}
-			});
-		}
 		</script>
 </body>
 </html>

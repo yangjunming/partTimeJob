@@ -22,10 +22,66 @@
 										#{item}
 								</foreach>
 						</if>
+						<if test="type !=0 ">
+								and type = #{type}
+						</if>
 						<if test="status !=0 ">
 								and status = #{status}
 						</if>
 				</where>
 				ORDER BY create_date DESC
+		</select>
+		<insert id="addSystemInfo" parameterType="cn.com.job.bean.SystemMessageBean">
+				insert into system_message
+				<trim prefix="(" suffix=")" suffixOverrides=",">
+						<if test="title !=null and title !='' ">
+								title,
+						</if>
+						<if test="type !=0 ">
+								type,
+						</if>
+						<if test="content !=null and content !='' ">
+								content,
+						</if>
+						create_date
+				</trim>
+				<trim prefix="values (" suffix=")" suffixOverrides=",">
+						<if test="title !=null and title !='' ">
+								#{title},
+						</if>
+						<if test="type !=0 ">
+								#{type},
+						</if>
+						<if test="content !=null and content !='' ">
+								#{content},
+						</if>
+						now()
+				</trim>
+		</insert>
+		<update id="updateSysteInfo" parameterType="cn.com.job.bean.SystemMessageBean">
+				UPDATE system_message
+				<trim prefix="set" suffixOverrides=",">
+						<if test="title !=null and title !='' ">title=#{title},</if>
+						<if test="content !=null and content !='' ">content=#{content},</if>
+						<if test="type !=0 ">type=#{type},</if>
+						<if test="status !=0 ">status=#{status},</if>
+				</trim>
+				WHERE message_id=#{messageId}
+		</update>
+		<select id="getSystemInfo" resultType="cn.com.job.bean.SystemMessageBean">
+				SELECT
+				message_id AS messageId,
+				title,
+				content,
+				DATE_FORMAT(
+				create_date,
+				'%Y-%m-%d %H:%i:%s'
+				) AS createDate,
+				type,
+				`status`
+				FROM
+				system_message
+				WHERE
+				message_id = #{messageId}
 		</select>
 </mapper>

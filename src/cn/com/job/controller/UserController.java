@@ -1,9 +1,12 @@
 package cn.com.job.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.druid.util.StringUtils;
+
 import cn.com.job.bean.UserBean;
 import cn.com.job.bean.UserResBean;
+import cn.com.job.service.CaptchaUtil;
 import cn.com.job.service.UserService;
 
 @Controller
@@ -31,6 +37,23 @@ public class UserController {
 	}
 
 	/**
+	 * 验证码
+	 */
+	@RequestMapping("/checkJpg")
+	public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		// 通知浏览器不要缓存
+		response.setHeader("Expires", "-1");
+		response.setHeader("Cache-Control", "no-cache");
+		response.setHeader("Pragma", "-1");
+		CaptchaUtil util = CaptchaUtil.Instance();
+		// 将验证码输入到session中，用来验证
+		String code = util.getString();
+		request.getSession().setAttribute("code", code);
+		// 输出打web页面
+		ImageIO.write(util.getImage(), "jpg", response.getOutputStream());
+	}
+
+	/**
 	 * 登录
 	 * 
 	 * @param userBean
@@ -38,14 +61,39 @@ public class UserController {
 	 */
 	@RequestMapping("/login")
 	@ResponseBody
-	public UserBean login(@RequestBody UserBean userBean, HttpSession session) {
-		UserBean userbean = userService.login(userBean);
-		if (null != userbean) {
-			session.setAttribute("User", userbean);
-		} else {
-			userbean = new UserBean();
+	public Object login(@RequestBody UserBean userBean, HttpSession session) {
+		String codeSession = (String) session.getAttribute("code");
+		HashMap<String, Object> map = new HashMap<>();
+		if (StringUtils.isEmpty(codeSession)) {
+			// 验证码生成失败
+			map.put("flag", "0");
+			map.put("message", "验证码生成失败,请重新生成");
+			return map;
 		}
-		return userbean;
+		UserBean userbean = new UserBean();
+		if (codeSession.equalsIgnoreCase(userBean.getCode())) {
+			// 验证码通过
+			session.removeAttribute("code");
+			userbean = userService.login(userBean);
+			if (null != userbean) {
+				// 验证码生成失败
+				map.put("flag", "1");
+				map.put("type", userbean.getType());
+				map.put("message", "登录成功");
+				session.setAttribute("User", userbean);
+				return map;
+			} else {
+				map.put("flag", "0");
+				map.put("message", "手机号或者密码错误");
+				return map;
+			}
+		} else {
+			// "验证码错误";
+			session.removeAttribute("code");
+			map.put("flag", "0");
+			map.put("message", "验证码错误,请重新刷新");
+			return map;
+		}
 	}
 
 	/**
@@ -147,11 +195,20 @@ public class UserController {
 		return map;
 	}
 
+	/**
+	 * 获取人员列表
+	 * 
+	 * @param status
+	 * @param userName
+	 * @param mobile
+	 * @param type
+	 * @return
+	 */
 	@RequestMapping("/getuserList")
 	@ResponseBody
 	public List<UserBean> getuserList(@RequestParam Integer status, @RequestParam String userName,
-			@RequestParam String mobile,@RequestParam Integer type) {
-		List<UserBean> list = userService.getuserList(status,userName,mobile,type);
+			@RequestParam String mobile, @RequestParam Integer type) {
+		List<UserBean> list = userService.getuserList(status, userName, mobile, type);
 		return list;
 	}
 

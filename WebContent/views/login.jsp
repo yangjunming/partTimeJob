@@ -27,6 +27,10 @@
 														<input type="password" class="form-control" placeholder="密码" id="loginPassword" required="" />
 												</div>
 												<div>
+												<input type="text" class="form-control" placeholder="验证码" id="code" required="" />
+												<img id="img" src="<%=basePath%>user/checkJpg" onclick="javascript:refreshs()">
+												</div>
+												<div>
 														<a class="btn btn-default submit" href="javascript:login();">登录</a>
 														<!--                 <a class="reset_pass" href="#">忘记密码?</a> -->
 												</div>
@@ -118,7 +122,7 @@
     function login(){
     	var mobile = $("#loginMobile").val();
     	var password = $("#loginPassword").val();
-    	var datas = {"mobile":mobile,"password":password}
+    	var datas = {"mobile":mobile,"password":password,"code":$("#code").val()}
     	$.ajax({
             type: "post",
             url: "<%=basePath%>user/login",
@@ -128,15 +132,16 @@
 						success : function(data) {
 							console.log(data);
 							if(null != data){
-								if(data.userId==0){
-									alertError("用户名或者密码不正确!");
-								}
+								if(data.flag=="0"){
+									alertError(data.message);
+								}else{
 								if(data.type==1){
 									window.location.href="<%=basePath%>views/manager/manager-index.jsp";
 								}else if(data.type==2){
 									window.location.href="<%=basePath%>views/enterprise/enterprise-index.jsp";
 								}else if(data.type==3){
 									window.location.href="<%=basePath%>views/candidate/candidate-index.jsp";
+								}
 								}
 						} else {
 							alertError("登录失败!");
@@ -154,6 +159,11 @@
 					$("#enterpriseNameDiv").show();
 					$("#addressDiv").show();
 				}
+			}
+			
+			function refreshs(){
+				var url = "user/checkJpg?number="+Math.random();  
+		    $("#img").attr("src",url); 
 			}
 		</script>
 </body>

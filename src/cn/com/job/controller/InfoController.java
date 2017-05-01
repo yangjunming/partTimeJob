@@ -69,6 +69,19 @@ public class InfoController {
 		infoBean = infoService.getInfoListByUserId(userId);
 		return infoBean;
 	}
+	
+	/**
+	 * 查询招聘信息列表
+	 * @param infoBean
+	 * @return
+	 */
+	@RequestMapping("/getInfoList")
+	@ResponseBody
+	public List<InfoBean> getInfoList(@RequestBody InfoBean infoBean) {
+		List<InfoBean> infoBeanList = new ArrayList<>();
+		infoBeanList = infoService.getInfoList(infoBean);
+		return infoBeanList;
+	}
 
 	/**
 	 * 更新招聘信息状态

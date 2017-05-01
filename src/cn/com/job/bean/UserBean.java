@@ -9,6 +9,15 @@ public class UserBean {
 	private String address;
 	private int type;
 	private int status;
+	private String code;
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 
 	public int getStatus() {
 		return status;

@@ -28,4 +28,6 @@ public interface InfoService {
 
 	public RelationBean getRelation(RelationBean relationBean);
 
+	public List<InfoBean> getInfoList(InfoBean infoBean);
+
 }

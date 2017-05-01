@@ -1,6 +1,5 @@
 package cn.com.job.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +94,12 @@ public class InfoServiceImpl implements InfoService {
 	@Override
 	public RelationBean getRelation(RelationBean relationBean) {
 		return infoMapper.getRelation(relationBean);
+	}
+
+	@Override
+	public List<InfoBean> getInfoList(InfoBean infoBean) {
+		List<InfoBean> list = infoMapper.getInfoList(infoBean);
+		return list;
 	}
 	
 }

@@ -16,14 +16,16 @@
 						<div class="col-md-3 left_col">
 								<div class="left_col scroll-view">
 										<div class="navbar nav_title" style="border: 0;">
+												<!--               <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a> -->
 										</div>
+
 										<div class="clearfix"></div>
 
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
-														<input id="userId" value="${sessionScope.User.userId}" hidden=""> 
-														<img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
+														<input id="userId" value="${sessionScope.User.userId}" hidden="">
+														 <img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
 												</div>
 												<div class="profile_info">
 														<span>欢迎,</span>
@@ -85,33 +87,44 @@
 						<!-- /top navigation -->
 
 						<!-- page content -->
+						<div></div>
 						<!-- /page content -->
 						<div class="right_col" role="main">
 						<div class="x_panel">
                   <div class="x_title">
-                    <h2>修改个人信息 </h2>
+                    <h2>新增公告 </h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <br />
                     <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
                       <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">姓名</label>
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">标题</label>
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" value="" id="userName">
+                           <input type="text" class="form-control" value="" id="title">
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">电话</label>
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">内容</label>
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" value="" id="mobile">
+                           <textarea type="text" class="form-control" value="" id="content"></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">类型</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                           <select class="form-control" id="type">
+																		<option value="1">所有人可见</option>
+																		<option value="2">企业用户可见</option>
+																		<option value="3">求职用户可见</option>
+																</select>
                         </div>
                       </div>
                      <div class="col-md-12 col-sm-12 col-xs-12">
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
-                          <a type="button" class="btn btn-primary" href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">取消</a>
+                          <a type="button" class="btn btn-primary" href="<%=basePath%>views/manager/system-message.jsp">取消</a>
                           <a class="btn btn-success" href="javascript:save();">提交</a>
                         </div>
                       </div>
@@ -127,34 +140,21 @@
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
-		$(function userInfo(){
-			var userId =$("#userId").val();
-			$.ajax({
-        type: "post",
-        url: "<%=basePath%>user/getUserById?userId="+userId+"",
-				data : {},
-				dataType : "json",
-				contentType : 'application/json;charset=utf-8', //设置请求头信息  
-				success : function(data) {
-					$("#userName").val(data.userName);
-					$("#mobile").val(data.mobile);
-			}
-		});
-		})
 		function save(){
-			var userId =$("#userId").val();
-			var datas = {"userId":userId,"userName":$("#userName").val(),"mobile":$("#mobile").val()}
+			var title =$("#title").val();
+			var content =$("#content").val();
+			var type =$("#type").val();
+			var datas = {"title":title,"content":content,"type":type};
 			$.ajax({
         type: "post",
-        url: "<%=basePath%>user/editUserInfo",
+        url: "<%=basePath%>manager/addSystemInfo",
 				data : JSON.stringify(datas),
 				dataType : "json",
 				contentType : 'application/json;charset=utf-8', //设置请求头信息  
 				success : function(data) {
-					console.log(data);
-					if(data.falg =='1' ){
+					if(data.flag =='1' ){
 						alertMessage(data.message);
-<%-- 						window.setTimeout("window.location.href='<%=basePath%>views/candidate/candidate-index.jsp'", 400); --%>
+						window.location.href="<%=basePath%>views/manager/system-message.jsp";
 				} else {
 					alertError(data.message);
 				}
