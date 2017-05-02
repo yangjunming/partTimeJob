@@ -27,8 +27,8 @@
 														<input type="password" class="form-control" placeholder="密码" id="loginPassword" required="" />
 												</div>
 												<div>
-														<input type="text" class="form-control" placeholder="验证码" id="code" required="" /> <img id="img"
-																src="<%=basePath%>user/checkJpg" onclick="javascript:refreshs()">
+														<input type="text" class="form-control" placeholder="验证码" id="code" required="" /> 
+														<img id="img" src="<%=basePath%>user/checkJpg" onclick="javascript:refreshs()">
 												</div>
 												<div>
 														<a class="btn btn-default submit" href="javascript:login();">登录</a>
