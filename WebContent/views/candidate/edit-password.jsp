@@ -108,7 +108,7 @@
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
-                          <a type="button" class="btn btn-primary" href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">取消</a>
+                          <a type="button" class="btn btn-primary" href="<%=basePath%>views/candidate/candidate-index.jsp">取消</a>
                           <a class="btn btn-success" href="javascript:save();">提交</a>
                         </div>
                       </div>
@@ -149,7 +149,6 @@
 				return;
 			}
 			var userId =$("#userId").val();
-			console.log(userId);
 			if(null ==userId || userId == ''){
 				alertInfo("用户登录信息过期,请重新登录");
 				return;

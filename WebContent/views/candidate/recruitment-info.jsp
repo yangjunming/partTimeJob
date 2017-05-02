@@ -101,7 +101,7 @@
 																<div class="form-group">
 																		<div class="control-label col-md-6 col-sm-6 col-xs-12">
 																				<label id="wages" style="color: #FF8800"></label><i style="color: #FF5511; font-weight: bold;">|</i>
-																				<label id="wagess">类型</label><i style="color: #FF5511; font-weight: bold;">|</i> <label
+																				<label id="position">类型</label><i style="color: #FF5511; font-weight: bold;">|</i> <label
 																						style="color: #FF3333" id="creatDate">发布时间:</label>
 																		</div>
 																		<div class="control-label col-md-4 col-sm-4 col-xs-12">
@@ -193,7 +193,8 @@
 							$("#workeTime").text("上班时间: "+data.workStartTime+"-"+data.workEndTime)
 							$("#workArea").text("工作地点: "+data.workArea);
 							$("#workDescribe").html(data.workDescribe);
-							$("#enterpriseName").text("公司: "+data.enterpriseName)
+							$("#enterpriseName").text("公司: "+data.enterpriseName);
+							$("#position").text(data.position);
 				} else {
 					alertError("加载信息失败!");
 				}

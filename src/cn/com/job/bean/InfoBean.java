@@ -19,6 +19,15 @@ public class InfoBean {
 	private int infoStatus;
 	private String enterpriseName;
 	private String search;
+	private String position;
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
 
 	public String getSearch() {
 		return search;

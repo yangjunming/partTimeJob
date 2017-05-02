@@ -88,7 +88,6 @@
 						<!-- /top navigation -->
 
 						<!-- page content -->
-						<div></div>
 						<!-- /page content -->
 						<div class="right_col" role="main">
 						<div class="x_panel">
@@ -134,8 +133,6 @@
                   </div>
                 </div>
                 </div>
-						<!-- footer content -->
-						<!-- /footer content -->
 				</div>
 		</div>
 		<!-- Custom Theme Scripts -->

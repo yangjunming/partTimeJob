@@ -156,6 +156,12 @@
                           </select>
                         </div>
                       </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">工作岗位</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="工作岗位" id="position">
+                        </div>
+                      </div>
               <div class="x_panel">
                 <div class="x_title">
                 <h2>工作描述</h2>
@@ -271,7 +277,7 @@
 					"endDate":endDate,"workStartTime":$("#workStartTime").val(),
 					"workEndTime":$("#workEndTime").val(),"workArea":$("#workArea").val(),
 					"catalogId":$("#catalogId").val(),
-					"workDescribe":descr,"enterpriseId":$("#enterpriseId").val()}
+					"workDescribe":descr,"enterpriseId":$("#enterpriseId").val(),"position":$("#position").val()}
     	$.ajax({
             type: "post",
             url: "<%=basePath%>info/addInfo",

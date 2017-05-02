@@ -20,4 +20,6 @@ public interface UserService {
 
 	public List<UserBean> getuserList(Integer status, String userName, String mobile,Integer type);
 
+	public boolean mobileCheck(String mobile,Integer userId);
+
 }

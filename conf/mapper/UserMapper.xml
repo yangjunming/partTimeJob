@@ -121,4 +121,15 @@
 						</if>
 				</where>
 		</select>
+		<select id="mobileCheck" resultType="java.lang.Integer">
+				SELECT
+				COUNT(user_id)
+				FROM
+				t_user
+				WHERE
+				mobile = #{mobile}
+				<if test="userId !=null and userId !=0 ">
+				and user_id != #{userId}
+				</if>
+		</select>
 </mapper>

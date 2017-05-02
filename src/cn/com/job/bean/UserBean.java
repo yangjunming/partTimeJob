@@ -8,8 +8,44 @@ public class UserBean {
 	private String enterpriseName;
 	private String address;
 	private int type;
+	private String age;
+	private int gender;
+	private String education;
+	private String describe;
 	private int status;
 	private String code;
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+
+	public int getGender() {
+		return gender;
+	}
+
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+
+	public String getEducation() {
+		return education;
+	}
+
+	public void setEducation(String education) {
+		this.education = education;
+	}
+
+	public String getDescribe() {
+		return describe;
+	}
+
+	public void setDescribe(String describe) {
+		this.describe = describe;
+	}
 
 	public String getCode() {
 		return code;

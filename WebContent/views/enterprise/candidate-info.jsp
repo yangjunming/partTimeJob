@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>兼职人员!</title>
+<title>企业用户!</title>
 </head>
 <body class="nav-md">
 		<div class="container body">
@@ -22,8 +22,8 @@
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
-														<input id="userId" value="${sessionScope.User.userId}" hidden=""> 
-														<input id="candidateId" hidden=""> 
+														<input id="candidateUserId" hidden="" value="${param.id}"> 
+														<input id="infoId" hidden="" value="${param.infoId}">
 														<img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
 												</div>
 												<div class="profile_info">
@@ -87,24 +87,19 @@
                       <div class="form-group">
                         <label class="control-label col-md-4 col-sm-4 col-xs-12">姓名</label>
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" value="" id="userName">
+                           <input type="text" class="form-control" disabled="disabled" id="userName">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-4 col-sm-4 col-xs-12">电话</label>
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" value="" id="mobile" onblur="javascript:mobileCheck();">
-                           <div id="mobileCheck" hidden="">
-																<div class="col-md-6 form-group has-error has-feedback">
-																		<label id="mobileMessage" class="control-label" for="inputError2" style="color: red">电话号码已存在</label>
-																</div>
-														</div>
+                           <input type="text" class="form-control" disabled="disabled" value="" id="mobile">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-4 col-sm-4 col-xs-12">性别</label>
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                          <select class="form-control" id="gender">
+                          <select class="form-control" id="gender" disabled="disabled">
                             <option value="1">男</option>
                             <option value="2">女</option>
                             <option value="3">保密</option>
@@ -114,27 +109,26 @@
                       <div class="form-group">
                         <label class="control-label col-md-4 col-sm-4 col-xs-12">年龄</label>
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" value="" id="age">
+                           <input type="text" class="form-control" value="" disabled="disabled" id="age">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-4 col-sm-4 col-xs-12">学历</label>
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" value="" id="education">
+                           <input type="text" class="form-control" value="" disabled="disabled" id="education">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-4 col-sm-4 col-xs-12">自我描述/介绍</label>
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                           <textarea type="text" class="form-control" value="" id="describe"></textarea>
+                           <textarea type="text" class="form-control" value="" disabled="disabled" id="describe"></textarea>
                         </div>
                       </div>
                      <div class="col-md-12 col-sm-12 col-xs-12">
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
-                          <a type="button" class="btn btn-primary" href="<%=basePath%>views/candidate/candidate-index.jsp">取消</a>
-                          <a class="btn btn-success" href="javascript:save();">提交</a>
+                          <a type="button" class="btn btn-primary" href="javascript:back();">返回</a>
                         </div>
                       </div>
 
@@ -149,9 +143,8 @@
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
-		var createFlag =false;
 		$(function userInfo(){
-			var userId =$("#userId").val();
+			var userId =$("#candidateUserId").val();
 			$.ajax({
         type: "post",
         url: "<%=basePath%>user/getUserById?userId="+userId+"",
@@ -169,62 +162,9 @@
 			}
 		});
 		})
-		function save(){
-			if(!createFlag){
-    		return;
-    	}
-    	var mobile = $("#mobile").val();
-    	if(null == mobile || mobile==''){
-    		$("#mobileMessage").text("电话号码不能为空");
-    		$("#mobileCheck").show();
-    		return;
-    	}
-			var userId =$("#userId").val();
-			var datas = {"userId":userId,"userName":$("#userName").val(),"mobile":$("#mobile").val(),
-					"gender":$("#gender").val(),"age":$("#age").val(),"education":$("#education").val(),
-					"candidateDescribe":$("#describe").val(),"candidateId":$("#candidateId").val(),"type":3}
-			$.ajax({
-        type: "post",
-        url: "<%=basePath%>user/editUserInfo",
-				data : JSON.stringify(datas),
-				dataType : "json",
-				contentType : 'application/json;charset=utf-8', //设置请求头信息  
-				success : function(data) {
-					console.log(data);
-					if(data.falg =='1' ){
-						alertMessage(data.message);
-						window.setTimeout("window.location.href='<%=basePath%>views/candidate/candidate-index.jsp'", 400);
-				} else {
-					alertError(data.message);
-				}
-			}
-		});
-		}
-		
-		function mobileCheck(){
-			var userId =$("#userId").val();
-			var mobile = $("#mobile").val();
-			if(null == mobile || mobile==''){
-				$("#mobileCheck").show();
-				$("#mobileMessage").text("电话号码不能为空");
-				return;
-			}
-			$.ajax({
-        type: "get",
-        url: "<%=basePath%>user/mobileCheck?mobile="+mobile+"&userId="+userId+"",
-				data : {},
-				dataType : "json",
-				contentType : 'application/json;charset=utf-8', //设置请求头信息  
-				success : function(data) {
-					if(data.flag=="1"){
-						$("#mobileCheck").show();
-						createFlag =false;
-					}else{
-						$("#mobileCheck").hide();
-						createFlag=true;
-					}
-			}
-		});
+		function back(){
+			var infoId = $("#infoId").val();
+			window.location.href="<%=basePath%>views/enterprise/signup-list.jsp?id="+infoId+"";
 		}
 		</script>
 </body>

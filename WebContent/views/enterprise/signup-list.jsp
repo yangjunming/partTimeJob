@@ -136,6 +136,7 @@
 					contentType : 'application/json;charset=utf-8', //设置请求头信息  
 					success : function(data) {
 						if (data.length>0) {
+							console.log(data);
 							var tr = "";
 							for (var i = 0; i < data.length; i++) {
 								var status = "";
@@ -158,7 +159,7 @@
 								if(data[i].relationStatus=="1"){
 									tr += "<td><a class='remove btn btn-primary input-xs' href=javascript:eidt("+ data[i].relationId+","+2+")>录用</a>"+
 									"<a class='remove btn btn-primary input-xs' href=javascript:eidt("+ data[i].relationId+","+3+")>不录用</a>"+
-									"<a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/manager/eidt-technician.jsp?id=" +  data[i].userId+ ">应聘者详情</a></td>";
+									"<a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/candidate-info.jsp?id=" +  data[i].userId+ "&infoId="+infoId+">应聘者详情</a></td>";
 								}
 								tr += "</tr>";
 							}

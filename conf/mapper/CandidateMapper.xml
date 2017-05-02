@@ -12,4 +12,41 @@
 				</trim>
 				WHERE candidate_id=#{candidateId}
 		</update>
+		<insert id="insert" parameterType="cn.com.job.bean.CandidateBean">
+				insert into t_candidate
+				<trim prefix="(" suffix=")" suffixOverrides=",">
+						<if test="gender !=0 ">
+								gender,
+						</if>
+						<if test="userId !=0 ">
+								user_id,
+						</if>
+						<if test="age !=0 ">
+								age,
+						</if>
+						<if test="education !=null and education !='' ">
+								education,
+						</if>
+						<if test="describe !=null and describe !='' ">
+								`describe`,
+						</if>
+				</trim>
+				<trim prefix="values (" suffix=")" suffixOverrides=",">
+						<if test="gender !=0 ">
+								#{gender},
+						</if>
+						<if test="userId !=0 ">
+								#{userId},
+						</if>
+						<if test="age !=0 ">
+								#{age},
+						</if>
+						<if test="education !=null and education !='' ">
+								#{education},
+						</if>
+						<if test="describe !=null and describe !='' ">
+								#{describe},
+						</if>
+				</trim>
+		</insert>
 </mapper>

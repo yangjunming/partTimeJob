@@ -104,14 +104,19 @@
                       <div class="form-group">
                         <label class="control-label col-md-4 col-sm-4 col-xs-12">电话</label>
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" value="" id="mobile">
+                           <input type="text" class="form-control" value="" id="mobile" onblur="javascript:mobileCheck();">
+                           <div id="mobileCheck" hidden="">
+																<div class="col-md-6 form-group has-error has-feedback">
+																		<label id="mobileMessage" class="control-label" for="inputError2" style="color: red">电话号码已存在</label>
+																</div>
+														</div>
                         </div>
                       </div>
                      <div class="col-md-12 col-sm-12 col-xs-12">
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
-                          <a type="button" class="btn btn-primary" href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">取消</a>
+                          <a type="button" class="btn btn-primary" href="<%=basePath%>views/manager/manager-index.jsp">取消</a>
                           <a class="btn btn-success" href="javascript:save();">提交</a>
                         </div>
                       </div>
@@ -127,6 +132,7 @@
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
+		var createFlag =false;
 		$(function userInfo(){
 			var userId =$("#userId").val();
 			$.ajax({
@@ -142,6 +148,15 @@
 		});
 		})
 		function save(){
+			if(!createFlag){
+    		return;
+    	}
+    	var mobile = $("#mobile").val();
+    	if(null == mobile || mobile==''){
+    		$("#mobileMessage").text("电话号码不能为空");
+    		$("#mobileCheck").show();
+    		return;
+    	}
 			var userId =$("#userId").val();
 			var datas = {"userId":userId,"userName":$("#userName").val(),"mobile":$("#mobile").val()}
 			$.ajax({
@@ -158,6 +173,32 @@
 				} else {
 					alertError(data.message);
 				}
+			}
+		});
+		}
+		
+		function mobileCheck(){
+			var userId =$("#userId").val();
+			var mobile = $("#mobile").val();
+			if(null == mobile || mobile==''){
+				$("#mobileCheck").show();
+				$("#mobileMessage").text("电话号码不能为空");
+				return;
+			}
+			$.ajax({
+        type: "get",
+        url: "<%=basePath%>user/mobileCheck?mobile="+mobile+"&userId="+userId+"",
+				data : {},
+				dataType : "json",
+				contentType : 'application/json;charset=utf-8', //设置请求头信息  
+				success : function(data) {
+					if(data.flag=="1"){
+						$("#mobileCheck").show();
+						createFlag =false;
+					}else{
+						$("#mobileCheck").hide();
+						createFlag=true;
+					}
 			}
 		});
 		}

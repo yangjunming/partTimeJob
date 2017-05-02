@@ -124,6 +124,32 @@ public class UserController {
 	}
 
 	/**
+	 * 电话号码是否存在
+	 * 
+	 * @param mobile
+	 * @return
+	 */
+	@RequestMapping("/mobileCheck")
+	@ResponseBody
+	public Object mobileCheck(@RequestParam String mobile,@RequestParam(required=false) Integer userId) {
+		HashMap<String, String> map = new HashMap<>();
+		if (null == mobile || mobile.equals("")) {
+			map.put("flag", "0");
+			map.put("message", "参数错误");
+			return map;
+		}
+		boolean result = userService.mobileCheck(mobile,userId);
+		if (result) {
+			map.put("flag", "1");
+			map.put("message", "电话号码已存在");
+			return map;
+		}
+		map.put("flag", "0");
+		map.put("message", "电话号码不存在");
+		return map;
+	}
+
+	/**
 	 * 修改密码
 	 * 
 	 * @param userId

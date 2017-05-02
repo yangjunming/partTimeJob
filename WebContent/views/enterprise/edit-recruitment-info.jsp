@@ -155,6 +155,12 @@
                           </select>
                         </div>
                       </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">工作岗位</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <input type="text" class="form-control" placeholder="工作岗位" id="position">
+                        </div>
+                      </div>
               <div class="x_panel">
                 <div class="x_title">
                 <h2>工作描述</h2>
@@ -247,7 +253,6 @@
 				dataType : "json",
 				contentType : 'application/json;charset=utf-8', //设置请求头信息  
 				success : function(data) {
-					console.log(data);
 					if(data !=null ){
 							$("#title").val(data.title);
 							$("#wages").val(data.wages);
@@ -259,6 +264,7 @@
 							$("#workArea").val(data.workArea);
 							$("#catalogId").val(data.catalogId);
 							$("#editor-one").html(data.workDescribe);
+							$("#position").val(data.position);
 				} else {
 					alertError("加载信息失败!");
 				}
@@ -278,8 +284,7 @@
 					"endDate":endDate,"workStartTime":$("#workStartTime").val(),
 					"workEndTime":$("#workEndTime").val(),"workArea":$("#workArea").val(),
 					"catalogId":$("#catalogId").val(),
-					"workDescribe":descr}
-			console.log(datas);
+					"workDescribe":descr,"position":$("#position").val()}
     	$.ajax({
             type: "post",
             url: "<%=basePath%>info/editInfo",

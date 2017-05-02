@@ -23,4 +23,6 @@ public interface UserMapper {
 	public List<UserBean> getuserList(@Param("status") Integer status, @Param("mobile") String mobile,
 			@Param("userName") String userName,@Param("type") Integer type);
 
+	public int mobileCheck(@Param("mobile")String mobile,@Param("userId")Integer userId);
+
 }

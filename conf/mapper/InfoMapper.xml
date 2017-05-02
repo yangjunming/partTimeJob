@@ -20,6 +20,7 @@
 				<result column="creat_date" property="creatDate" />
 				<result column="info_status" property="infoStatus" />
 				<result column="enterprise_name" property="enterpriseName" />
+				<result column="position" property="position" />
 		</resultMap>
 		<insert id="addInfo" parameterType="cn.com.job.bean.InfoBean" useGeneratedKeys="true" keyProperty="infoId">
 				insert into part_time_information
@@ -57,6 +58,9 @@
 						<if test="workDescribe !=null and workDescribe !='' ">
 								work_describe,
 						</if>
+						<if test="position !=null and position !='' ">
+								position,
+						</if>
 						creat_date
 				</trim>
 				<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -93,6 +97,9 @@
 						<if test="workDescribe !=null and workDescribe !='' ">
 								#{workDescribe},
 						</if>
+						<if test="position !=null and position !='' ">
+								#{position},
+						</if>
 						now()
 				</trim>
 		</insert>
@@ -109,6 +116,7 @@
 						<if test="workArea !=null ">work_area=#{workArea},</if>
 						<if test="catalogId !=0 ">catalog_id=#{catalogId},</if>
 						<if test="workDescribe !=null ">work_describe=#{workDescribe},</if>
+						<if test="position !=null ">position=#{position},</if>
 						creat_date = now(),
 						info_status = 0,
 				</trim>
@@ -165,6 +173,7 @@
 		<select id="getsigupList" resultType="cn.com.job.bean.SigupInfoBean">
 				SELECT
 				title,
+				t_user.user_id as userId,
 				user_name AS userName,
 				age,
 				education,
@@ -179,6 +188,8 @@
 				LEFT JOIN t_candidate tc ON tc.candidate_id = rc.candidate_id
 				LEFT JOIN t_user ON
 				t_user.user_id = tc.user_id
+				WHERE
+				rc.info_id = #{infoId}
 		</select>
 		<update id="updateRelationStatus">
 				UPDATE relation_candidate
@@ -205,7 +216,8 @@
 				'%Y-%m-%d %H:%i:%s'
 				)
 				AS creat_date,
-				info_status
+				info_status,
+				position
 				FROM
 				part_time_information
 				LEFT JOIN t_enterprise ON t_enterprise.enterprise_id = part_time_information.enterprise_id

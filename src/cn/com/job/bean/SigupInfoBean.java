@@ -23,6 +23,15 @@ public class SigupInfoBean {
 	private String userName;
 	private String mobile;
 	private int relationStatus;
+	private int userId;
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
 	public String getUserName() {
 		return userName;

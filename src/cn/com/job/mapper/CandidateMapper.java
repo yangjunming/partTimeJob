@@ -6,4 +6,6 @@ public interface CandidateMapper {
 
 	public int update(CandidateBean candidateBean);
 
+	public int insert(CandidateBean candidateBean);
+
 }

@@ -25,11 +25,12 @@
 								area,
 						</if>
 						<if test="describe !=null ">
-								describe,
+								`describe`,
 						</if>
 						<if test="userId !=0 ">
 								user_id,
 						</if>
+						create_date,
 				</trim>
 				<trim prefix="values (" suffix=")" suffixOverrides=",">
 						<if test="enterpriseName !=null ">
@@ -47,6 +48,7 @@
 						<if test="userId !=0 ">
 								#{userId},
 						</if>
+						now(),
 				</trim>
 		</insert>
 		<select id="getInfoByUserId" resultMap="enterpriseMap">

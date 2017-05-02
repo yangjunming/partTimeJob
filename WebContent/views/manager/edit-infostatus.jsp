@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>兼职人员!</title>
+<title>管理人员!</title>
 </head>
 <body class="nav-md">
 		<div class="container body">
@@ -113,7 +113,7 @@
 																<div class="form-group">
 																		<div class="control-label col-md-6 col-sm-6 col-xs-12">
 																				<label id="wages" style="color: #FF8800"></label><i style="color: #FF5511; font-weight: bold;">|</i>
-																				<label id="wagess">类型</label><i style="color: #FF5511; font-weight: bold;">|</i> <label
+																				<label id="position">类型</label><i style="color: #FF5511; font-weight: bold;">|</i> <label
 																						style="color: #FF3333" id="creatDate">发布时间:</label>
 																		</div>
 																		<div class="control-label col-md-4 col-sm-4 col-xs-12">
@@ -204,6 +204,7 @@
 							$("#workArea").text("工作地点: "+data.workArea);
 							$("#workDescribe").html(data.workDescribe);
 							$("#enterpriseName").text("公司: "+data.enterpriseName);
+							$("#position").text(data.position);
 							if(data.infoStatus==0){
 								$("#through").show();
 								$("#reject").show();
@@ -217,30 +218,23 @@
 			
 		})
 		
-		function signup(){
+		function edit(status){
 			var infoId =$("#infoId").val();
-			var userId =$("#userId").val();
-			if(userId == ''){
-				alertInfo("请先登录");
-				window.setTimeout("window.location.href='<%=basePath%>views/login.jsp'", 400);
-			}else{
 			$.ajax({
         type: "get",
-        url: "<%=basePath%>info/signup?infoId="+infoId+"&userId="+userId+"",
-				data : {},
-				dataType : "json",
-				contentType : 'application/json;charset=utf-8', //设置请求头信息  
-				success : function(data) {
-					console.log(data);
-					if(data.flag=='1'){
-					alertMessage(data.message);
-					window.setTimeout("window.location.href='<%=basePath%>views/candidate/candidate-index.jsp'", 400);
-							} else {
-								alertError(data.message);
-							}
+        url: "<%=basePath%>info/updateInfo?infoId=" + infoId + "&infoStatus="+status+"",
+					data : {},
+					dataType : "json",
+					contentType : 'application/json;charset=utf-8', //设置请求头信息  
+					success : function(data) {
+						if(data){
+							alertMessage("操作成功");
+							window.setTimeout("window.location.href='<%=basePath%>views/manager/info-list.jsp'", 400);
+						}else{
+							alertError("操作失败");
 						}
-					});
-				}
+						}
+			});
 
 			}
 		</script>

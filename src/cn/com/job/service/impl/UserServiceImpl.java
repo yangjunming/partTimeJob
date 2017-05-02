@@ -40,9 +40,16 @@ public class UserServiceImpl implements UserService {
 			enterpriseBean.setArea(userBean.getAddress());
 			enterpriseBean.setEnterpriseName(userBean.getEnterpriseName());
 			enterpriseBean.setUserId(userBean.getUserId());
+			enterpriseBean.setDescribe(userBean.getDescribe());
 			enterpriseService.insert(enterpriseBean);
 		}else if(result > 0 && userBean.getType() == 3){
-			
+			CandidateBean candidateBean = new CandidateBean();
+			candidateBean.setUserId(userBean.getUserId());
+			candidateBean.setAge(Integer.parseInt(userBean.getAge()));
+			candidateBean.setGender(userBean.getGender());
+			candidateBean.setEducation(userBean.getEducation());
+			candidateBean.setDescribe(userBean.getDescribe());
+			candidateMapper.insert(candidateBean);
 		}
 		return result > 0;
 	}
@@ -87,6 +94,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserBean> getuserList(Integer status, String userName, String mobile,Integer type) {
 		return userMapper.getuserList(status,mobile,userName,type);
+	}
+
+	@Override
+	public boolean mobileCheck(String mobile,Integer userId) {
+		int result = userMapper.mobileCheck(mobile,userId);
+		if(result>0){
+			return true;
+		}
+		return false;
 	}
 
 }
