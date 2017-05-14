@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.com.job.bean.CatalogBean;
 import cn.com.job.bean.SystemMessageBean;
 import cn.com.job.service.ManagerService;
 
@@ -102,6 +103,61 @@ public class ManagerController {
 			return new SystemMessageBean();
 		}
 		return systemMessageBean;
+	}
+	
+	/**
+	 * 获取分类列表
+	 * @return
+	 */
+	@RequestMapping("/getCatalogList")
+	@ResponseBody
+	public List<CatalogBean> getCatalogList(@RequestBody CatalogBean catalogBean){
+		return managerService.getCatalogList(catalogBean);
+	}
+	
+	@RequestMapping("/addCatalog")
+	@ResponseBody
+	public Object addCatalog(@RequestBody CatalogBean catalogBean){
+		HashMap<String, String> map = new HashMap<>();
+		if (null == catalogBean) {
+			map.put("flag", "0");
+			map.put("message", "参数错误");
+			return map;
+		}
+		boolean result = managerService.addCatalog(catalogBean);
+		if (result) {
+			map.put("flag", "1");
+			map.put("message", "新增成功");
+		} else {
+			map.put("flag", "0");
+			map.put("message", "新增失败");
+		}
+		return map;
+		
+	}
+	/**
+	 * 删除分类
+	 * @param catalogBean
+	 * @return
+	 */
+	@RequestMapping("/editCatalog")
+	@ResponseBody
+	public Object editCatalog(@RequestBody CatalogBean catalogBean){
+		HashMap<String, String> map = new HashMap<>();
+		if (null == catalogBean) {
+			map.put("flag", "0");
+			map.put("message", "参数错误");
+			return map;
+		}
+		boolean result = managerService.editCatalog(catalogBean);
+		if (result) {
+			map.put("flag", "1");
+			map.put("message", "删除成功");
+		} else {
+			map.put("flag", "0");
+			map.put("message", "删除失败");
+		}
+		return map;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.com.job.bean.CatalogBean;
 import cn.com.job.bean.SystemMessageBean;
 import cn.com.job.mapper.ManagerMapper;
 import cn.com.job.service.ManagerService;
@@ -42,6 +43,29 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public SystemMessageBean getSystemInfo(Integer messageId) {
 		return managerMapper.getSystemInfo(messageId);
+	}
+
+	@Override
+	public List<CatalogBean> getCatalogList(CatalogBean catalogBean) {
+		return managerMapper.getCatalogList(catalogBean);
+	}
+
+	@Override
+	public boolean editCatalog(CatalogBean catalogBean) {
+		int result = managerMapper.editCatalog(catalogBean);
+		if (result > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean addCatalog(CatalogBean catalogBean) {
+		int result = managerMapper.addCatalog(catalogBean);
+		if (result > 0) {
+			return true;
+		}
+		return false;
 	}
 
 }

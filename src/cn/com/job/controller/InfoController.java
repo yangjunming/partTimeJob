@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.com.job.bean.CandidateBean;
+import cn.com.job.bean.CommentBean;
 import cn.com.job.bean.InfoBean;
 import cn.com.job.bean.RelationBean;
 import cn.com.job.bean.SigupInfoBean;
@@ -154,7 +155,7 @@ public class InfoController {
 	 * @param status
 	 * @return
 	 */
-	@RequestMapping("getInfoListByStatus")
+	@RequestMapping("/getInfoListByStatus")
 	@ResponseBody
 	public List<InfoBean> getInfoListByStatus(@RequestParam Integer status, @RequestParam String search) {
 		List<InfoBean> infoBean = new ArrayList<>();
@@ -164,6 +165,20 @@ public class InfoController {
 		infoBean = infoService.getInfoListByStatus(status, search);
 		return infoBean;
 	}
+	
+	/**
+	 * 查看我报名的兼职工作
+	 * @param search
+	 * @return
+	 */
+	@RequestMapping("/getInfoListByCandidate")
+	@ResponseBody
+	public List<InfoBean> getInfoListByCandidate(@RequestParam Integer userId, @RequestParam String search) {
+		List<InfoBean> infoBean = new ArrayList<>();
+		infoBean = infoService.getInfoListByCandidate(userId,search);
+		return infoBean;
+	}
+	
 
 	/**
 	 * 报名兼职
@@ -227,6 +242,110 @@ public class InfoController {
 			return relationbean;
 		}
 		return new RelationBean();
+	}
+	
+	/**
+	 * 评论
+	 * @param commentBean
+	 * @return
+	 */
+	@RequestMapping("/addComment")
+	@ResponseBody
+	public Object addComment(@RequestBody CommentBean commentBean){
+		HashMap<String, String> map = new HashMap<>();
+		if (null == commentBean) {
+			map.put("flag", "0");
+			map.put("message", "参数不正确");
+			return map;
+		}
+		boolean result = infoService.addComment(commentBean);
+		if (result) {
+			map.put("flag", "1");
+			map.put("message", "评论成功");
+			return map;
+		}
+		map.put("flag", "0");
+		map.put("message", "评论失败");
+		return map;
+	}
+	
+	/**
+	 * 查询评论列表
+	 * @param infoId
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping("/commentList")
+	@ResponseBody
+	public List<CommentBean> commentList(@RequestParam Integer infoId,@RequestParam Integer status){
+		List<CommentBean> list = new ArrayList<>();
+		if(null== infoId || infoId==0){
+			return list;
+		}
+		list = infoService.commentList(infoId,status);
+		return list;
+	}
+	
+	/**
+	 * 查看评论详情
+	 * @param commentBean
+	 * @return
+	 */
+	@RequestMapping("/commentInfo")
+	@ResponseBody
+	public CommentBean commentInfo(@RequestParam Integer commentId){
+		CommentBean commentBeans = new CommentBean();
+		if(commentId==null || commentId ==0){
+			return commentBeans;
+		}
+		commentBeans = infoService.commentInfo(commentId);
+		return commentBeans;
+	}
+	
+	/**
+	 * 提交回复
+	 * @param commentBean
+	 * @return
+	 */
+	@RequestMapping("/updateComment")
+	@ResponseBody
+	public Object updateComment(@RequestBody CommentBean commentBean){
+		HashMap<String, String> map = new HashMap<>();
+		if (null == commentBean) {
+			map.put("flag", "0");
+			map.put("message", "参数不正确");
+			return map;
+		}
+		boolean result = infoService.updateComment(commentBean);
+		if (result) {
+			map.put("flag", "1");
+			map.put("message", "回复成功");
+			return map;
+		}
+		map.put("flag", "0");
+		map.put("message", "回复失败");
+		return map;
+	}
+	
+	@RequestMapping("/deleteComment")
+	@ResponseBody
+	public Object deleteComment(@RequestParam Integer commentId){
+		HashMap<String, String> map = new HashMap<>();
+		if(null== commentId || commentId==0){
+			map.put("flag", "0");
+			map.put("message", "参数不正确");
+			return map;
+		}
+		boolean result = infoService.deleteComment(commentId);
+		if (result) {
+			map.put("flag", "1");
+			map.put("message", "删除成功");
+			return map;
+		}
+		map.put("flag", "0");
+		map.put("message", "删除失败");
+		return map;
+		
 	}
 
 }

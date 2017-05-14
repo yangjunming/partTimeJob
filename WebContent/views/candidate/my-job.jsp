@@ -24,12 +24,12 @@
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
-														<input id="userId" value="${sessionScope.User.userId}" hidden="">
-														 <img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
+														<img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
 												</div>
 												<div class="profile_info">
 														<span>欢迎,</span>
 														<h2>${sessionScope.User.userName}</h2>
+														<input id="userId" value="${sessionScope.User.userId}" hidden="">
 												</div>
 										</div>
 										<!-- /menu profile quick info -->
@@ -44,7 +44,7 @@
 																				<li><a href="<%=basePath%>views/candidate/edit-personalInfo.jsp">修改个人信息</a></li>
 																				<li><a href="<%=basePath%>views/candidate/edit-password.jsp">修改登录密码</a></li>
 																		</ul></li>
-																		<li><a><i class="fa fa-desktop"></i>报名信息<span class="fa fa-chevron-down"></span></a>
+																		<li id="myJob"><a><i class="fa fa-desktop"></i>报名信息<span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
 																				<li><a href="<%=basePath%>views/candidate/my-job.jsp">我报名的兼职</a></li>
 																		</ul>
@@ -80,96 +80,95 @@
 						<!-- /top navigation -->
 
 						<!-- page content -->
-						<div></div>
-						<!-- /page content -->
 						<div class="right_col" role="main">
-						<div class="x_panel">
+						<div>
+						<div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
                   <div class="x_title">
-                    <h2>修改密码 </h2>
+                    <h2>兼职信息表</h2>
+                    <div class="col-md-8"></div>
+                    <div class="text-right"">
+                    <div class="col-md-2">
+                    <input class="form-control" id="search">
+                    </div>
+                    <a class="btn btn-success" href="javascript:infoList();">搜索</a>
+                    </div>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">旧密码</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="password" class="form-control" value="" id="oldPassword">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">新密码</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="password" class="form-control" value="" id="newPassword">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">确认新密码</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="password" class="form-control" value="" id="confirmPassword">
-                        </div>
-                      </div>
-                     <div class="col-md-12 col-sm-12 col-xs-12">
-                      <div class="ln_solid"></div>
-                      <div class="form-group">
-                        <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
-                          <a type="button" class="btn btn-primary" href="<%=basePath%>views/candidate/candidate-index.jsp">取消</a>
-                          <a class="btn btn-success" href="javascript:save();">提交</a>
-                        </div>
-                      </div>
-
-                    </form>
+                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>序号</th>
+                          <th>标题</th>
+                          <th>企业名称</th>
+                          <th>工资</th>
+                          <th>招聘人数</th>
+                          <th>开始日期</th>
+                          <th>结束日期</th>
+                          <th>工作地址</th>
+                          <th>发布时间</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+                      <tbody id="infoList">
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-                </div>
+              </div>
+						</div>
+						<!-- /page content -->
+						</div>
 						<!-- footer content -->
+						<footer>
+								<div class="clearfix"></div>
+						</footer>
 						<!-- /footer content -->
 				</div>
 		</div>
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
-		function save(){
-			var oldPassword =$("#oldPassword").val();
-			var newPassword =$("#newPassword").val();
-			var confirmPassword =$("#confirmPassword").val();
-			if(oldPassword == null || oldPassword==''){
-				alertInfo("旧密码不能为空");
-				return;
-			}
-			if(newPassword == null || newPassword==''){
-				alertInfo("新密码不能为空");
-				return;
-			}
-			if(confirmPassword == null || confirmPassword==''){
-				alertInfo("确认密码不能为空");
-				return;
-			}
-			if(oldPassword == newPassword){
-				alertInfo("新密码与旧密码相同");
-				return;
-			}
-			if(confirmPassword != newPassword){
-				alertInfo("新密码与确认密码不相同");
-				return;
-			}
-			var userId =$("#userId").val();
-			if(null ==userId || userId == ''){
+		$(function candidateIndex(){
+			infoList();
+		})
+		
+   function infoList(){
+  	 $("#infoList tr").remove();
+  	 var search = $("#search").val();
+  	 var userId = $("#userId").val();
+  	 if(null ==userId || userId == ''){
 				alertInfo("用户登录信息过期,请重新登录");
 				return;
 			}
-			$.ajax({
-        type: "get",
-        url: "<%=basePath%>user/editPassword?userId="+userId+"&oldPassword="+oldPassword+"&newPassword="+newPassword+"",
+  	 $.ajax({
+       type: "get",
+       url: "<%=basePath%>info/getInfoListByCandidate?userId="+userId+"&search="+search+"",
 				data : {},
 				dataType : "json",
 				contentType : 'application/json;charset=utf-8', //设置请求头信息  
 				success : function(data) {
-					if(data.falg =='1' ){
-						alertMessage(data.message);
-						window.setTimeout("window.location.href='<%=basePath%>views/login.jsp'", 400);
+				if (data.length>0) {
+					var tr = "";
+					for (var i = 0; i < data.length; i++) {
+						var j = Number(i)+Number(1);
+						tr += "<tr>";
+						tr += "<td>" + j + "</td>";
+						tr += "<td>" + data[i].title + "</td>";
+						tr += "<td>" + data[i].enterpriseName + "</td>";
+						tr += "<td>" + data[i].wages + "</td>";
+						tr += "<td>" + data[i].recruitNum + "</td>";
+						tr += "<td>" + data[i].startDate + "</td>";
+						tr += "<td>" + data[i].endDate + "</td>";
+						tr += "<td>" + data[i].workArea + "</td>";
+						tr += "<td>" + data[i].creatDate + "</td>";
+						tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/candidate/recruitment-info.jsp?id=" +  data[i].infoId + "&flag=1>详情</a></td>";
+						tr += "</tr>";
+					}
+					$("#infoList").append(tr);
 				} else {
-					alertError(data.message);
+					alertError("没有招聘信息!");
 				}
 			}
 		});

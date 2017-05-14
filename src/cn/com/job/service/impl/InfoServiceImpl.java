@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cn.com.job.bean.CommentBean;
 import cn.com.job.bean.InfoBean;
 import cn.com.job.bean.RelationBean;
 import cn.com.job.bean.SigupInfoBean;
@@ -100,6 +101,50 @@ public class InfoServiceImpl implements InfoService {
 	public List<InfoBean> getInfoList(InfoBean infoBean) {
 		List<InfoBean> list = infoMapper.getInfoList(infoBean);
 		return list;
+	}
+
+	@Override
+	public List<InfoBean> getInfoListByCandidate(Integer userId, String search) {
+		List<InfoBean> list = infoMapper.getInfoListByCandidate(userId,search);
+		return list;
+	}
+
+	@Override
+	public boolean addComment(CommentBean commentBean) {
+		int result = infoMapper.addComment(commentBean);
+		if(result>0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<CommentBean> commentList(Integer infoId,Integer status) {
+		List<CommentBean> list = infoMapper.commentList(infoId,status);
+		return list;
+	}
+
+	@Override
+	public CommentBean commentInfo(Integer commentId) {
+		return infoMapper.commentInfo(commentId);
+	}
+
+	@Override
+	public boolean updateComment(CommentBean commentBean) {
+		int result = infoMapper.updateComment(commentBean);
+		if(result>0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean deleteComment(Integer commentId) {
+		int result = infoMapper.deleteComment(commentId);
+		if(result>0){
+			return true;
+		}
+		return false;
 	}
 	
 }

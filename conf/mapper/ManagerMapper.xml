@@ -84,4 +84,62 @@
 				WHERE
 				message_id = #{messageId}
 		</select>
+		<select id="getCatalogList" parameterType="cn.com.job.bean.CatalogBean" resultType="cn.com.job.bean.CatalogBean">
+				SELECT
+				catalog_id AS catalogId,
+				catalog_level AS catalogLevel,
+				catalog_name AS catalogName,
+				parent_id AS parentId,
+				`status`
+				FROM
+				t_catalog
+				<where>
+						<if test="catalogLevel != 0 ">
+								and catalog_level = #{catalogLevel}
+						</if>
+						<if test="parentId != 0 ">
+								and parent_id = #{parentId}
+						</if>
+						<if test="catalogId != 0 ">
+								and catalog_id = #{catalogId}
+						</if>
+						<if test="status != 0 ">
+								and `status` = #{status}
+						</if>
+				</where>
+		</select>
+		<update id="editCatalog" parameterType="cn.com.job.bean.CatalogBean">
+				UPDATE t_catalog
+				<trim prefix="set" suffixOverrides=",">
+						<if test="catalogName !=null ">catalog_name=#{catalogName},</if>
+						<if test="catalogLevel !=0 ">catalog_level=#{catalogLevel},</if>
+						<if test="status !=0 ">status=#{status},</if>
+				</trim>
+				WHERE catalog_id=#{catalogId}
+		</update>
+		<insert id="addCatalog" parameterType="cn.com.job.bean.CatalogBean">
+				insert into t_catalog
+				<trim prefix="(" suffix=")" suffixOverrides=",">
+						<if test="catalogName !=null ">
+								catalog_name,
+						</if>
+						<if test="catalogLevel !=0 ">
+								catalog_level,
+						</if>
+						<if test="parentId !=0 ">
+								parent_id,
+						</if>
+				</trim>
+				<trim prefix="values (" suffix=")" suffixOverrides=",">
+						<if test="catalogName !=null ">
+								#{catalogName},
+						</if>
+						<if test="catalogLevel !=0 ">
+								#{catalogLevel},
+						</if>
+						<if test="parentId !=0 ">
+								#{parentId},
+						</if>
+				</trim>
+		</insert>
 </mapper>

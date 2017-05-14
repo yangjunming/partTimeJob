@@ -20,6 +20,15 @@ public class InfoBean {
 	private String enterpriseName;
 	private String search;
 	private String position;
+	private String catalogName;
+
+	public String getCatalogName() {
+		return catalogName;
+	}
+
+	public void setCatalogName(String catalogName) {
+		this.catalogName = catalogName;
+	}
 
 	public String getPosition() {
 		return position;

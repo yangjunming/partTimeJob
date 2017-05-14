@@ -55,6 +55,7 @@
 																		<ul class="nav child_menu">
 																				<li><a href="<%=basePath%>views/manager/system-message.jsp">系统公告</a></li>
 																				<li><a href="<%=basePath%>views/manager/info-list.jsp">兼职信息管理</a></li>
+																				<li><a href="<%=basePath%>views/manager/catalog-list.jsp">分类列表</a></li>
 																		</ul>
 																	</li>
 														</ul>
@@ -92,7 +93,7 @@
 						<div class="right_col" role="main">
 						<div class="x_panel">
                   <div class="x_title">
-                    <h2>新增公告 </h2>
+                    <h2>编辑公告 </h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">

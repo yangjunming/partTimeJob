@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import cn.com.job.bean.CommentBean;
 import cn.com.job.bean.InfoBean;
 import cn.com.job.bean.RelationBean;
 import cn.com.job.bean.SigupInfoBean;
@@ -33,5 +34,17 @@ public interface InfoMapper {
 	public RelationBean getRelation(RelationBean relationBean);
 
 	public List<InfoBean> getInfoList(InfoBean infoBean);
+
+	public List<InfoBean> getInfoListByCandidate(@Param("userId")Integer userId,@Param("search") String search);
+
+	public int addComment(CommentBean commentBean);
+
+	public List<CommentBean> commentList(@Param("infoId")Integer infoId,@Param("status")Integer status);
+
+	public CommentBean commentInfo(@Param("commentId")Integer commentId);
+
+	public int updateComment(CommentBean commentBean);
+
+	public int deleteComment(@Param("commentId")Integer commentId);
 
 }

@@ -18,9 +18,7 @@
 										<div class="navbar nav_title" style="border: 0;">
 												<!--               <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a> -->
 										</div>
-
 										<div class="clearfix"></div>
-
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
@@ -53,6 +51,7 @@
 																		<ul class="nav child_menu">
 																				<li><a href="<%=basePath%>views/manager/system-message.jsp">系统公告</a></li>
 																				<li><a href="<%=basePath%>views/manager/info-list.jsp">兼职信息管理</a></li>
+																				<li><a href="<%=basePath%>views/manager/catalog-list.jsp">分类列表</a></li>
 																		</ul>
 																	</li>
 														</ul>

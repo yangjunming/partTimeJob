@@ -50,6 +50,10 @@
 																				<li><a href="<%=basePath%>views/enterprise/addrecruitment-info.jsp">发布招聘信息</a></li>
 																				<!-- <li><a href="form_validation.html">Form Validation</a></li> -->
 																		</ul></li>
+																		<li><a><i class="fa fa-clone"></i>系统公告<span class="fa fa-chevron-down"></span></a>
+																		<ul class="nav child_menu">
+																				<li><a href="<%=basePath%>views/enterprise/system-infolist.jsp">系统公告</a></li>
+																		</ul></li>
 														</ul>
 												</div>
 										</div>
@@ -167,6 +171,11 @@
 									"<a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/edit-recruitment-info.jsp?id=" +  data[i].infoId+ ">编辑</a></td>";
 								}else if(data[i].infoStatus=="0"){
 									tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/edit-recruitment-info.jsp?id=" +  data[i].infoId+ ">编辑</a>"+
+									"<a class='remove btn btn-primary input-xs' href=javascript:deletInfo("+ data[i].infoId+")>删除</a></td>";
+								}else if(data[i].infoStatus=="2"){
+									tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/comment-list.jsp?id=" +  data[i].infoId + ">评论列表</a>"+
+									"<a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/signup-list.jsp?id=" +  data[i].infoId + ">报名情况</a>"+
+									"<a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/edit-recruitment-info.jsp?id=" +  data[i].infoId+ ">编辑</a>"+
 									"<a class='remove btn btn-primary input-xs' href=javascript:deletInfo("+ data[i].infoId+")>删除</a></td>";
 								}else{
 									tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/signup-list.jsp?id=" +  data[i].infoId + ">报名情况</a>"+

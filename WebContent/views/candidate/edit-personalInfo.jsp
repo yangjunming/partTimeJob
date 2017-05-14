@@ -43,6 +43,11 @@
 																				<li><a href="<%=basePath%>views/candidate/edit-personalInfo.jsp">修改个人信息</a></li>
 																				<li><a href="<%=basePath%>views/candidate/edit-password.jsp">修改登录密码</a></li>
 																		</ul></li>
+																		<li><a><i class="fa fa-desktop"></i>报名信息<span class="fa fa-chevron-down"></span></a>
+																		<ul class="nav child_menu">
+																				<li><a href="<%=basePath%>views/candidate/my-job.jsp">我报名的兼职</a></li>
+																		</ul>
+																	</li>
 														</ul>
 												</div>
 										</div>

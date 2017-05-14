@@ -54,6 +54,7 @@
 																		<ul class="nav child_menu">
 																				<li><a href="<%=basePath%>views/manager/system-message.jsp">系统公告</a></li>
 																				<li><a href="<%=basePath%>views/manager/info-list.jsp">兼职信息管理</a></li>
+																				<li><a href="<%=basePath%>views/manager/catalog-list.jsp">分类列表</a></li>
 																		</ul>
 																	</li>
 														</ul>
@@ -167,7 +168,8 @@
 								tr += "<td>" + data[i].endDate + "</td>";
 								tr += "<td>" + data[i].creatDate + "</td>";
 								tr += "<td>" + status + "</td>";
-								tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/manager/edit-infostatus.jsp?id=" +  data[i].infoId+ ">详情</a></td>";
+								tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/manager/comment-list.jsp?id=" +  data[i].infoId + ">评论列表</a>"+
+										"<a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/manager/edit-infostatus.jsp?id=" +  data[i].infoId+ ">详情</a></td>";
 								tr += "</tr>";
 							}
 							$("#infoList").append(tr);

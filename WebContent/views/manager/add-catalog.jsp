@@ -8,7 +8,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>企业用户!</title>
+<title>管理员!</title>
 </head>
 <body class="nav-md">
 		<div class="container body">
@@ -16,15 +16,16 @@
 						<div class="col-md-3 left_col">
 								<div class="left_col scroll-view">
 										<div class="navbar nav_title" style="border: 0;">
+												<!--               <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a> -->
 										</div>
+
 										<div class="clearfix"></div>
 
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
-														<input id="candidateUserId" hidden="" value="${param.id}"> 
-														<input id="infoId" hidden="" value="${param.infoId}">
-														<img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
+														<input id="userId" value="${sessionScope.User.userId}" hidden="">
+														 <img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
 												</div>
 												<div class="profile_info">
 														<span>欢迎,</span>
@@ -36,22 +37,26 @@
 										<!-- sidebar menu -->
 										<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 												<div class="menu_section">
+<!-- 														<h3>General</h3> -->
 														<ul class="nav side-menu">
-																<li><a><i class="fa fa-home"></i> 个人信息管理 <span class="fa fa-chevron-down"></span></a>
+																<li class="active"><a><i class="fa fa-home"></i> 个人信息管理 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
-																				<li><a href="<%=basePath%>views/enterprise/edit-personalInfo.jsp">修改个人信息</a></li>
-																				<li><a href="<%=basePath%>views/enterprise/edit-password.jsp">修改登录密码</a></li>
-																		</ul></li>
-																<li><a><i class="fa fa-edit"></i> 招聘信息 <span class="fa fa-chevron-down"></span></a>
+																				<li><a href="<%=basePath%>views/manager/edit-personalInfo.jsp">修改个人信息</a></li>
+																				<li><a href="<%=basePath%>views/manager/edit-password.jsp">修改登录密码</a></li>
+																		</ul>
+																	</li>
+																	<li><a><i class="fa fa-edit"></i>人员管理 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
-																				<li class="active"><a href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">我的招聘信息</a></li>
-																				<li><a href="<%=basePath%>views/enterprise/addrecruitment-info.jsp">发布招聘信息</a></li>
-																				<!-- <li><a href="form_validation.html">Form Validation</a></li> -->
-																		</ul></li>
-																		<li><a><i class="fa fa-clone"></i>系统公告<span class="fa fa-chevron-down"></span></a>
+																				<li><a href="<%=basePath%>views/manager/user-list.jsp">人员列表</a></li>
+																		</ul>
+																	</li>
+																	<li><a><i class="fa fa-desktop"></i>系统管理 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
-																				<li><a href="<%=basePath%>views/enterprise/system-infolist.jsp">系统公告</a></li>
-																		</ul></li>
+																				<li><a href="<%=basePath%>views/manager/system-message.jsp">系统公告</a></li>
+																				<li><a href="<%=basePath%>views/manager/info-list.jsp">兼职信息管理</a></li>
+																				<li><a href="<%=basePath%>views/manager/catalog-list.jsp">分类列表</a></li>
+																		</ul>
+																	</li>
 														</ul>
 												</div>
 										</div>
@@ -83,61 +88,45 @@
 						<!-- /top navigation -->
 
 						<!-- page content -->
+						<div></div>
 						<!-- /page content -->
 						<div class="right_col" role="main">
 						<div class="x_panel">
                   <div class="x_title">
-                    <h2>修改个人信息 </h2>
+                    <h2>新增分类 </h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <br />
                     <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">姓名</label>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">分类等级</label>
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" disabled="disabled" id="userName">
+                           <select class="form-control" id="catalogLevel" onchange="javascript:parents();">
+																		<option value="1">一级分类</option>
+																		<option value="2">二级分类</option>
+																</select>
+                        </div>
+                      </div>
+                      <div class="form-group" id="parent" hidden="">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">一级分类</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                           <select class="form-control" id="parentId">
+																</select>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">电话</label>
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">分类名称</label>
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" disabled="disabled" value="" id="mobile">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">性别</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                          <select class="form-control" id="gender" disabled="disabled">
-                            <option value="1">男</option>
-                            <option value="2">女</option>
-                            <option value="3">保密</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">年龄</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" value="" disabled="disabled" id="age">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">学历</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" value="" disabled="disabled" id="education">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">自我描述/介绍</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                           <textarea type="text" class="form-control" value="" disabled="disabled" id="describe"></textarea>
+                           <input type="text" class="form-control" value="" id="catalogName">
                         </div>
                       </div>
                      <div class="col-md-12 col-sm-12 col-xs-12">
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
-                          <a type="button" class="btn btn-primary" href="javascript:back();">返回</a>
+                          <a type="button" class="btn btn-primary" href="<%=basePath%>views/manager/catalog-list.jsp">取消</a>
+                          <a class="btn btn-success" href="javascript:save();">提交</a>
                         </div>
                       </div>
 
@@ -152,28 +141,59 @@
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
-		$(function userInfo(){
-			var userId =$("#candidateUserId").val();
+		function save(){
+			var catalogLevel =$("#catalogLevel").val();
+			var catalogName =$("#catalogName").val();
+			var parentId =$("#parentId").val();
+			var datas = {"catalogLevel":catalogLevel,"catalogName":catalogName,"parentId":parentId};
 			$.ajax({
         type: "post",
-        url: "<%=basePath%>user/getUserById?userId="+userId+"",
-				data : {},
+        url: "<%=basePath%>manager/addCatalog",
+				data : JSON.stringify(datas),
 				dataType : "json",
 				contentType : 'application/json;charset=utf-8', //设置请求头信息  
 				success : function(data) {
-					$("#userName").val(data.userName);
-					$("#mobile").val(data.mobile);
-					$("#gender").val(data.gender);
-					$("#age").val(data.age);
-					$("#education").val(data.education);
-					$("#describe").val(data.candidateDescribe);
-					$("#candidateId").val(data.candidateId);
+					if(data.flag =='1' ){
+						alertMessage(data.message);
+						window.location.href="<%=basePath%>views/manager/catalog-list.jsp";
+				} else {
+					alertError(data.message);
+				}
 			}
 		});
-		})
-		function back(){
-			var infoId = $("#infoId").val();
-			window.location.href="<%=basePath%>views/enterprise/signup-list.jsp?id="+infoId+"";
+		}
+		
+		function catalogList(){
+			var datas = {"catalogLevel":1,"status":1};
+			$.ajax({
+        type: "post",
+        url: "<%=basePath%>manager/getCatalogList",
+			data : JSON.stringify(datas),
+			dataType : "json",
+			contentType : 'application/json;charset=utf-8', //设置请求头信息  
+			success : function(data) {
+				console.log(data);
+					if (data.length > 0) {
+				    for (var i = 0; i < data.length; i++) {
+					$("#parentId").append(
+						"<option value='"+data[i].catalogId+"'>" + data[i].catalogName + "</option>");
+				    }
+				} else {
+					alertInfo("没有一级分类");
+				}
+			}
+		});
+	}
+		
+		function parents(){
+			var catalogLevel = $("#catalogLevel").val();
+			if(catalogLevel=="1"){
+				$("#parent").hide();
+			}else if(catalogLevel=="2"){
+				$("#parent").show();
+				catalogList();
+			}
+			
 		}
 		</script>
 </body>

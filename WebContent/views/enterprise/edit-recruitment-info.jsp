@@ -24,8 +24,7 @@
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
-														<input id="infoId" value="${param.id}" hidden="">
-														 <img
+														<input id="infoId" value="${param.id}" hidden=""> <img
 																src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
 												</div>
 												<div class="profile_info">
@@ -50,6 +49,10 @@
 																				<li><a href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">我的招聘信息</a></li>
 																				<li class="active"><a href="<%=basePath%>views/enterprise/addrecruitment-info.jsp">发布招聘信息</a></li>
 																				<!-- <li><a href="form_validation.html">Form Validation</a></li> -->
+																		</ul></li>
+																<li><a><i class="fa fa-clone"></i>系统公告<span class="fa fa-chevron-down"></span></a>
+																		<ul class="nav child_menu">
+																				<li><a href="<%=basePath%>views/enterprise/system-infolist.jsp">系统公告</a></li>
 																		</ul></li>
 														</ul>
 												</div>
@@ -83,168 +86,168 @@
 
 						<!-- page content -->
 						<div class="right_col" role="main">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>添加招聘 </h2>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                    <br />
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">标题</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                          <input type="text" class="form-control" placeholder="标题" id="title">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">工资</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                          <input type="text" class="form-control" placeholder="*元/天,或者*元/小时" id="wages">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">招聘人数</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                          <input type="text" class="form-control" placeholder="招聘人数" id="recruitNum">
-                        </div>
-                      </div>
-                       <div class="control-group">
-                       <label class="control-label col-md-4 col-sm-4 col-xs-12">工作开始日期</label>
-                              <div class="col-md-5 col-sm-5 col-xs-12 xdisplay_inputx form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left" id="single_cal4" placeholder="First Name" aria-describedby="inputSuccess2Status4">
-                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                <span id="inputSuccess2Status4" class="sr-only">(success)</span>
-                              </div>
-                          </div>
-                          <div class="control-group">
-                       <label class="control-label col-md-4 col-sm-4 col-xs-12">工作结束日期</label>
-                              <div class="col-md-5 col-sm-5 col-xs-12 xdisplay_inputx form-group has-feedback">
-                                <input type="text" class="form-control has-feedback-left" id="single_cal3" placeholder="First Name" aria-describedby="inputSuccess2Status4">
-                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                <span id="inputSuccess2Status4" class="sr-only">(success)</span>
-                              </div>
-                          </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">工作开始时间</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                          <input type="text" class="form-control" id="workStartTime" placeholder="工作开始时间:8:00" >
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">工作结束时间</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                          <input type="text" class="form-control" placeholder="工作结束时间:17:30" id="workEndTime">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">工作地址</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                          <input type="text" class="form-control" placeholder="工作地址" id="workArea">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">行业分类</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                          <select class="form-control" id="catalogId">
-                            <option value="1">Choose option</option>
-                            <option value="2">Option one</option>
-                            <option value="3">Option two</option>
-                            <option value="4">Option three</option>
-                            <option value="5">Option four</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">工作岗位</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                          <input type="text" class="form-control" placeholder="工作岗位" id="position">
-                        </div>
-                      </div>
-              <div class="x_panel">
-                <div class="x_title">
-                <h2>工作描述</h2>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <div id="alerts"></div>
-                  <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-one">
-                    <div class="btn-group">
-                      <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-                      <ul class="dropdown-menu">
-                      </ul>
-                    </div>
-                    <div class="btn-group">
-                      <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-                      <ul class="dropdown-menu">
-                        <li>
-                          <a data-edit="fontSize 5">
-                            <p style="font-size:17px">大号</p>
-                          </a>
-                        </li>
-                        <li>
-                          <a data-edit="fontSize 3">
-                            <p style="font-size:14px">中号</p>
-                          </a>
-                        </li>
-                        <li>
-                          <a data-edit="fontSize 1">
-                            <p style="font-size:11px">小号</p>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+								<div class="x_panel">
+										<div class="x_title">
+												<h2>添加招聘</h2>
+												<div class="clearfix"></div>
+										</div>
+										<div class="x_content">
+												<br />
+												<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+														<div class="form-group">
+																<label class="control-label col-md-4 col-sm-4 col-xs-12">标题</label>
+																<div class="col-md-5 col-sm-5 col-xs-12">
+																		<input type="text" class="form-control" placeholder="标题" id="title">
+																</div>
+														</div>
+														<div class="form-group">
+																<label class="control-label col-md-4 col-sm-4 col-xs-12">工资</label>
+																<div class="col-md-5 col-sm-5 col-xs-12">
+																		<input type="text" class="form-control" placeholder="*元/天,或者*元/小时" id="wages">
+																</div>
+														</div>
+														<div class="form-group">
+																<label class="control-label col-md-4 col-sm-4 col-xs-12">招聘人数</label>
+																<div class="col-md-5 col-sm-5 col-xs-12">
+																		<input type="text" class="form-control" placeholder="招聘人数" id="recruitNum">
+																</div>
+														</div>
+														<div class="control-group">
+																<label class="control-label col-md-4 col-sm-4 col-xs-12">工作开始日期</label>
+																<div class="col-md-5 col-sm-5 col-xs-12 xdisplay_inputx form-group has-feedback">
+																		<input type="text" class="form-control has-feedback-left" id="single_cal4" placeholder="First Name"
+																				aria-describedby="inputSuccess2Status4"> <span
+																				class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span> <span
+																				id="inputSuccess2Status4" class="sr-only">(success)</span>
+																</div>
+														</div>
+														<div class="control-group">
+																<label class="control-label col-md-4 col-sm-4 col-xs-12">工作结束日期</label>
+																<div class="col-md-5 col-sm-5 col-xs-12 xdisplay_inputx form-group has-feedback">
+																		<input type="text" class="form-control has-feedback-left" id="single_cal3" placeholder="First Name"
+																				aria-describedby="inputSuccess2Status4"> <span
+																				class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span> <span
+																				id="inputSuccess2Status4" class="sr-only">(success)</span>
+																</div>
+														</div>
+														<div class="form-group">
+																<label class="control-label col-md-4 col-sm-4 col-xs-12">工作开始时间</label>
+																<div class="col-md-5 col-sm-5 col-xs-12">
+																		<input type="text" class="form-control" id="workStartTime" placeholder="工作开始时间:8:00">
+																</div>
+														</div>
+														<div class="form-group">
+																<label class="control-label col-md-4 col-sm-4 col-xs-12">工作结束时间</label>
+																<div class="col-md-5 col-sm-5 col-xs-12">
+																		<input type="text" class="form-control" placeholder="工作结束时间:17:30" id="workEndTime">
+																</div>
+														</div>
+														<div class="form-group">
+																<label class="control-label col-md-4 col-sm-4 col-xs-12">工作地址</label>
+																<div class="col-md-5 col-sm-5 col-xs-12">
+																		<input type="text" class="form-control" placeholder="工作地址" id="workArea">
+																</div>
+														</div>
+														<div class="form-group">
+																<label class="control-label col-md-4 col-sm-4 col-xs-12">一级分类</label>
+																<div class="col-md-5 col-sm-5 col-xs-12">
+																		<select class="form-control" id="parentId" onchange="javascript:catalogList2();">
+																		</select>
+																</div>
+														</div>
+														<div class="form-group">
+																<label class="control-label col-md-4 col-sm-4 col-xs-12">二级分类</label>
+																<div class="col-md-5 col-sm-5 col-xs-12">
+																		<select class="form-control" id="catalogId">
+																		</select>
+																</div>
+														</div>
+														<div class="form-group">
+																<label class="control-label col-md-4 col-sm-4 col-xs-12">工作岗位</label>
+																<div class="col-md-5 col-sm-5 col-xs-12">
+																		<input type="text" class="form-control" placeholder="工作岗位" id="position">
+																</div>
+														</div>
+														<div class="x_panel">
+																<div class="x_title">
+																		<h2>工作描述</h2>
+																		<div class="clearfix"></div>
+																</div>
+																<div class="x_content">
+																		<div id="alerts"></div>
+																		<div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-one">
+																				<div class="btn-group">
+																						<a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b
+																								class="caret"></b></a>
+																						<ul class="dropdown-menu">
+																						</ul>
+																				</div>
+																				<div class="btn-group">
+																						<a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i
+																								class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+																						<ul class="dropdown-menu">
+																								<li><a data-edit="fontSize 5">
+																												<p style="font-size: 17px">大号</p>
+																								</a></li>
+																								<li><a data-edit="fontSize 3">
+																												<p style="font-size: 14px">中号</p>
+																								</a></li>
+																								<li><a data-edit="fontSize 1">
+																												<p style="font-size: 11px">小号</p>
+																								</a></li>
+																						</ul>
+																				</div>
 
-                    <div class="btn-group">
-                      <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
-                      <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
-                      <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
-                    </div>
+																				<div class="btn-group">
+																						<a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a> <a
+																								class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a> <a
+																								class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+																				</div>
 
-                    <div class="btn-group">
-                      <a class="btn" data-edit="insertunorderedlist" title="福好列"><i class="fa fa-list-ul"></i></a>
-                      <a class="btn" data-edit="insertorderedlist" title="数字列"><i class="fa fa-list-ol"></i></a>
-                      <a class="btn" data-edit="outdent" title="去掉缩进 (Shift+Tab)"><i class="fa fa-dedent"></i></a>
-                      <a class="btn" data-edit="indent" title="缩进  (Tab)"><i class="fa fa-indent"></i></a>
-                    </div>
+																				<div class="btn-group">
+																						<a class="btn" data-edit="insertunorderedlist" title="福好列"><i class="fa fa-list-ul"></i></a> <a
+																								class="btn" data-edit="insertorderedlist" title="数字列"><i class="fa fa-list-ol"></i></a> <a
+																								class="btn" data-edit="outdent" title="去掉缩进 (Shift+Tab)"><i class="fa fa-dedent"></i></a> <a
+																								class="btn" data-edit="indent" title="缩进  (Tab)"><i class="fa fa-indent"></i></a>
+																				</div>
 
-                    <div class="btn-group">
-                      <a class="btn" data-edit="justifyleft" title="左对齐 (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-                      <a class="btn" data-edit="justifycenter" title="居中 (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-                      <a class="btn" data-edit="justifyright" title="右对齐 (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
-<!--                       <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a> -->
-                    </div>
-                  </div>
-                  <div id="editor-one" class="editor-wrapper" >
-                  <textarea name="descr" id="descr" style="display:none;"></textarea>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                      <div class="ln_solid"></div>
-                      <div class="form-group">
-                        <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
-                          <a type="button" class="btn btn-primary" href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">取消</a>
-                          <a class="btn btn-success" href="javascript:save();">提交</a>
-                        </div>
-                      </div>
-
-                    </form>
-                  </div>
-                </div>
-              </div>
+																				<div class="btn-group">
+																						<a class="btn" data-edit="justifyleft" title="左对齐 (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+																						<a class="btn" data-edit="justifycenter" title="居中 (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+																						<a class="btn" data-edit="justifyright" title="右对齐 (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+																						<!--                       <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a> -->
+																				</div>
+																		</div>
+																		<div id="editor-one" class="editor-wrapper">
+																				<textarea name="descr" id="descr" style="display: none;"></textarea>
+																		</div>
+																</div>
+														</div>
+														<div class="col-md-12 col-sm-12 col-xs-12">
+																<div class="ln_solid"></div>
+																<div class="form-group">
+																		<div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
+																				<a type="button" class="btn btn-primary" href="<%=basePath%>views/enterprise/myrecruitment-info.jsp">取消</a>
+																				<a class="btn btn-success" href="javascript:save();">提交</a>
+																		</div>
+																</div>
+												</form>
+										</div>
+								</div>
 						</div>
-						<!-- footer content -->
-						<footer>
-								<div class="clearfix"></div>
-						</footer>
-						<!-- /footer content -->
 				</div>
+				<!-- footer content -->
+				<footer>
+						<div class="clearfix"></div>
+				</footer>
+				<!-- /footer content -->
+		</div>
 		</div>
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
 		$(function enterpriseInfo(){
+			catalogList(1);
 			var infoId = $("#infoId").val();
 			$.ajax({
         type: "get",
@@ -259,6 +262,7 @@
 							$("#recruitNum").val(data.recruitNum);
 							$("#single_cal4").val(data.startDate);
 							$("#single_cal3").val(data.endDate);
+							catalogList3(data.catalogId);
 							$("#workStartTime").val(data.workStartTime);
 							$("#workEndTime").val(data.workEndTime);
 							$("#workArea").val(data.workArea);
@@ -301,6 +305,73 @@
 					}
 				});
 		}
+		
+		function catalogList(catalogLevel){
+			var datas = {"catalogLevel":catalogLevel,"status":1};
+			$.ajax({
+        type: "post",
+        url: "<%=basePath%>manager/getCatalogList",
+			data : JSON.stringify(datas),
+			dataType : "json",
+			contentType : 'application/json;charset=utf-8', //设置请求头信息  
+			success : function(data) {
+				console.log(data);
+					if (data.length > 0) {
+				    for (var i = 0; i < data.length; i++) {
+					$("#parentId").append(
+						"<option value='"+data[i].catalogId+"'>" + data[i].catalogName + "</option>");
+				    }
+				} else {
+					alertInfo("没有一级分类");
+				}
+			}
+		});
+	}
+		
+		function catalogList2(){
+			$("#catalogId option").remove();
+			var parentId = $("#parentId").val();
+			var datas = {"catalogLevel":2,"status":1,"parentId":parentId};
+			$.ajax({
+        type: "post",
+        url: "<%=basePath%>manager/getCatalogList",
+			data : JSON.stringify(datas),
+			dataType : "json",
+			contentType : 'application/json;charset=utf-8', //设置请求头信息  
+			success : function(data) {
+				console.log(data);
+					if (data.length > 0) {
+				    for (var i = 0; i < data.length; i++) {
+					$("#catalogId").append(
+						"<option value='"+data[i].catalogId+"'>" + data[i].catalogName + "</option>");
+				    }
+				} else {
+					alertInfo("没有一级分类");
+				}
+			}
+		});
+	}
+		
+		function catalogList3(catalogId){
+			var datas = {"catalogId":catalogId,"status":1};
+			$.ajax({
+        type: "post",
+        url: "<%=basePath%>manager/getCatalogList",
+					data : JSON.stringify(datas),
+					dataType : "json",
+					asfnc:false,
+					contentType : 'application/json;charset=utf-8', 
+					success : function(data) {
+						console.log(data);
+						if (data.length > 0) {
+							$("#parentId").val(data[0].parentId);
+							catalogList2();
+						} else {
+							alertInfo("没有分类");
+						}
+					}
+				});
+			}
 		</script>
 </body>
 </html>

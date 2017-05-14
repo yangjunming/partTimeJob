@@ -183,7 +183,8 @@
 				rc.relation_id AS relationId
 				FROM
 				relation_candidate AS rc
-				LEFT JOIN part_time_information pti ON
+				LEFT JOIN
+				part_time_information pti ON
 				pti.info_id = rc.info_id
 				LEFT JOIN t_candidate tc ON tc.candidate_id = rc.candidate_id
 				LEFT JOIN t_user ON
@@ -217,10 +218,15 @@
 				)
 				AS creat_date,
 				info_status,
-				position
+				position,
+				catalog_name AS catalogName
 				FROM
 				part_time_information
-				LEFT JOIN t_enterprise ON t_enterprise.enterprise_id = part_time_information.enterprise_id
+				LEFT JOIN
+				t_enterprise ON
+				t_enterprise.enterprise_id = part_time_information.enterprise_id
+				LEFT JOIN t_catalog ON
+				t_catalog.catalog_id = part_time_information.catalog_id
 				WHERE
 				info_id = #{infoId}
 		</select>
@@ -251,10 +257,12 @@
 				part_time_information.enterprise_id
 				WHERE
 				info_status = #{status}
+				AND end_date&gt;=NOW()
 				<if test="search !=null and search !='' ">
 						AND (enterprise_name LIKE CONCAT("%",#{search},"%")
 						OR title LIKE CONCAT("%",#{search},"%")
-						OR work_area LIKE CONCAT("%",#{search},"%")
+						OR work_area
+						LIKE CONCAT("%",#{search},"%")
 						OR work_describe LIKE CONCAT("%",#{search},"%"))
 				</if>
 				ORDER BY
@@ -298,7 +306,7 @@
 				LIMIT 0,1
 		</select>
 		<select id="getInfoList" parameterType="cn.com.job.bean.InfoBean" resultMap="infoMap">
-		  SELECT
+				SELECT
 				enterprise_name,
 				part_time_information.info_id,
 				part_time_information.enterprise_id,
@@ -323,17 +331,151 @@
 				LEFT JOIN t_enterprise ON t_enterprise.enterprise_id =
 				part_time_information.enterprise_id
 				<where>
-				<if test="infoStatus !=0 ">
-				and info_status = #{infoStatus}
-				</if>
-				<if test="search !=null and search !='' ">
-						AND (enterprise_name LIKE CONCAT("%",#{search},"%")
-						OR title LIKE CONCAT("%",#{search},"%")
-						OR work_area LIKE CONCAT("%",#{search},"%")
-						OR work_describe LIKE CONCAT("%",#{search},"%"))
-				</if>
+						<if test="infoStatus !=0 ">
+								and info_status = #{infoStatus}
+						</if>
+						<if test="search !=null and search !='' ">
+								AND (enterprise_name LIKE CONCAT("%",#{search},"%")
+								OR title LIKE CONCAT("%",#{search},"%")
+								OR work_area
+								LIKE CONCAT("%",#{search},"%")
+								OR work_describe LIKE CONCAT("%",#{search},"%"))
+						</if>
 				</where>
 				ORDER BY
 				creat_date DESC
 		</select>
+		<select id="getInfoListByCandidate" resultMap="infoMap">
+				SELECT
+				enterprise_name,
+				part_time_information.info_id,
+				part_time_information.enterprise_id,
+				title,
+				wages,
+				recruit_num,
+				DATE_FORMAT(start_date, '%Y-%m-%d') AS start_date,
+				DATE_FORMAT(end_date, '%Y-%m-%d') AS end_date,
+				work_start_time,
+				work_end_time,
+				work_area,
+				part_time_information.catalog_id,
+				work_describe,
+				DATE_FORMAT(
+				creat_date,
+				'%Y-%m-%d %H:%i:%s'
+				)
+				AS creat_date,
+				info_status
+				FROM
+				part_time_information
+				LEFT JOIN relation_candidate ON relation_candidate.info_id =
+				part_time_information.info_id
+				LEFT JOIN t_enterprise ON t_enterprise.enterprise_id =
+				part_time_information.enterprise_id
+				WHERE
+				relation_candidate.candidate_id = (
+				SELECT
+				candidate_id
+				FROM
+				t_candidate
+				LEFT
+				JOIN t_user ON t_user.user_id = t_candidate.user_id
+				WHERE
+				t_user.user_id = #{userId}
+				)
+				<if test="search !=null and search !='' ">
+						AND (enterprise_name LIKE CONCAT("%",#{search},"%")
+						OR title LIKE CONCAT("%",#{search},"%")
+						OR work_area
+						LIKE CONCAT("%",#{search},"%")
+						OR work_describe LIKE CONCAT("%",#{search},"%"))
+				</if>
+				ORDER BY
+				creat_date DESC
+		</select>
+		<insert id="addComment" parameterType="cn.com.job.bean.CommentBean">
+				insert into t_comment
+				<trim prefix="(" suffix=")" suffixOverrides=",">
+						<if test="content !=null ">
+								content,
+						</if>
+						<if test="userId !=0 ">
+								user_id,
+						</if>
+						<if test="infoId !=0 ">
+								info_id,
+						</if>
+						create_date,
+				</trim>
+				<trim prefix="values (" suffix=")" suffixOverrides=",">
+						<if test="content !=null ">
+								#{content},
+						</if>
+						<if test="userId !=0 ">
+								#{userId},
+						</if>
+						<if test="infoId !=0 ">
+								#{infoId},
+						</if>
+						now(),
+				</trim>
+		</insert>
+		<select id="commentList" resultType="cn.com.job.bean.CommentBean">
+				SELECT
+				comment_id AS commentId,
+				content,
+				reply,
+				info_id AS infoId,
+				t_comment.user_id AS userId,
+				user_name AS userName,
+				DATE_FORMAT(
+				create_date,
+				'%Y-%m-%d %H:%i:%s'
+				)AS createDate,
+				comment_status AS commentStatus
+				FROM
+				t_comment
+				LEFT JOIN
+				t_user ON t_user.user_id = t_comment.user_id
+				WHERE
+				info_id = #{infoId}
+				<if test="status !=0 ">
+						AND comment_status = #{status}
+				</if>
+				ORDER BY create_date DESC
+		</select>
+		<select id="commentInfo" resultType="cn.com.job.bean.CommentBean">
+				SELECT
+				comment_id AS commentId,
+				content,
+				reply,
+				info_id AS infoId,
+				t_comment.user_id AS userId,
+				user_name AS userName,
+				DATE_FORMAT(
+				create_date,
+				'%Y-%m-%d %H:%i:%s'
+				)AS createDate,
+				comment_status AS commentStatus
+				FROM
+				t_comment
+				LEFT JOIN
+				t_user ON t_user.user_id = t_comment.user_id
+				<where>
+						<if test="commentId !=0 ">
+								comment_id = #{commentId}
+						</if>
+				</where>
+		</select>
+		<update id="updateComment" parameterType="cn.com.job.bean.CommentBean">
+				UPDATE t_comment
+				<trim prefix="set" suffixOverrides=",">
+						<if test="reply !=null ">reply=#{reply},</if>
+						<if test="commentStatus !=0 ">comment_status=#{commentStatus},</if>
+				</trim>
+				WHERE comment_id=#{commentId}
+		</update>
+		<delete id="deleteComment">
+				DELETE FROM t_comment WHERE comment_id = #{commentId}
+		</delete>
 </mapper>

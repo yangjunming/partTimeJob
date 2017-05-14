@@ -52,6 +52,10 @@
 																				<li class="active"><a href="<%=basePath%>views/enterprise/addrecruitment-info.jsp">发布招聘信息</a></li>
 																				<!-- <li><a href="form_validation.html">Form Validation</a></li> -->
 																		</ul></li>
+																		<li><a><i class="fa fa-clone"></i>系统公告<span class="fa fa-chevron-down"></span></a>
+																		<ul class="nav child_menu">
+																				<li><a href="<%=basePath%>views/enterprise/system-infolist.jsp">系统公告</a></li>
+																		</ul></li>
 														</ul>
 												</div>
 										</div>
@@ -145,14 +149,16 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">行业分类</label>
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">一级分类</label>
+                        <div class="col-md-5 col-sm-5 col-xs-12">
+                          <select class="form-control" id="parentId" onchange="javascript:catalogList2();">
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">二级分类</label>
                         <div class="col-md-5 col-sm-5 col-xs-12">
                           <select class="form-control" id="catalogId">
-                            <option value="1">Choose option</option>
-                            <option value="2">Option one</option>
-                            <option value="3">Option two</option>
-                            <option value="4">Option three</option>
-                            <option value="5">Option four</option>
                           </select>
                         </div>
                       </div>
@@ -254,7 +260,6 @@
 				dataType : "json",
 				contentType : 'application/json;charset=utf-8', //设置请求头信息  
 				success : function(data) {
-					console.log(data);
 					if(data !=null ){
 						$("#workArea").val(data.area);
 						$("#enterpriseId").val(data.enterpriseId);
@@ -263,7 +268,7 @@
 				}
 			}
 		});
-			
+			catalogList(1);
 		})
 		
 		function save(){
@@ -294,6 +299,53 @@
 					}
 				});
 		}
+		
+		function catalogList(catalogLevel){
+			var datas = {"catalogLevel":catalogLevel,"status":1};
+			$.ajax({
+       type: "post",
+       url: "<%=basePath%>manager/getCatalogList",
+			data : JSON.stringify(datas),
+			asfnc:false,
+			dataType : "json",
+			contentType : 'application/json;charset=utf-8', //设置请求头信息  
+			success : function(data) {
+					if (data.length > 0) {
+				    for (var i = 0; i < data.length; i++) {
+					$("#parentId").append(
+						"<option value='"+data[i].catalogId+"'>" + data[i].catalogName + "</option>");
+				    }
+				    catalogList2();
+				} else {
+					alertInfo("没有一级分类");
+				}
+			}
+		});
+	}
+		
+		function catalogList2(){
+			$("#catalogId option").remove();
+			var parentId = $("#parentId").val();
+			var datas = {"catalogLevel":2,"status":1,"parentId":parentId};
+			$.ajax({
+        type: "post",
+        url: "<%=basePath%>manager/getCatalogList",
+			data : JSON.stringify(datas),
+			asfnc:false,
+			dataType : "json",
+			contentType : 'application/json;charset=utf-8', //设置请求头信息  
+			success : function(data) {
+					if (data.length > 0) {
+				    for (var i = 0; i < data.length; i++) {
+					$("#catalogId").append(
+						"<option value='"+data[i].catalogId+"'>" + data[i].catalogName + "</option>");
+				    }
+				} else {
+					alertInfo("没有一级分类");
+				}
+			}
+		});
+	}
 		</script>
 </body>
 </html>

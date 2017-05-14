@@ -55,6 +55,7 @@
 																		<ul class="nav child_menu">
 																				<li><a href="<%=basePath%>views/manager/system-message.jsp">系统公告</a></li>
 																				<li><a href="<%=basePath%>views/manager/info-list.jsp">兼职信息管理</a></li>
+																				<li><a href="<%=basePath%>views/manager/catalog-list.jsp">分类列表</a></li>
 																		</ul>
 																	</li>
 														</ul>
@@ -163,6 +164,17 @@
 																		<div id="workDescribe"></div>
 																</div>
 														</div>
+														<div class="form-group">
+																<div class="col-md-3 col-sm-3"></div>
+																<div class="col-md-4 col-sm-4 col-xs-12">
+														<div class="x_title">
+																<h2>相关评论</h2>
+																<div class="clearfix"></div>
+														</div>
+														</div>
+														</div>
+														<div id="commentList">
+														</div>
 														<div class="col-md-12 col-sm-12 col-xs-12">
 																<div class="ln_solid"></div>
 																<div class="form-group">
@@ -209,6 +221,7 @@
 								$("#through").show();
 								$("#reject").show();
 						}
+							commentList();
 							
 				} else {
 					alertError("加载信息失败!");
@@ -235,8 +248,38 @@
 						}
 						}
 			});
-
 			}
+		function commentList(){
+			var infoId =$("#infoId").val();
+			$("#commentList").empty();
+			$.ajax({
+        type: "post",
+        url: "<%=basePath%>info/commentList?infoId="+infoId+"&status=0",
+				data : {},
+				dataType : "json",
+				contentType : 'application/json;charset=utf-8', //设置请求头信息  
+				success : function(data) {
+						if (data.length>0) {
+							var div = "";
+							for (var i = 0; i < data.length; i++) {
+								div +="<div class='form-group'>";
+								div += "<div class='col-md-3 col-sm-3'></div>";
+								div += "<div class='col-md-4 col-sm-4 col-xs-12'>";
+								div += "<label style='color: #FF8888'>"+data[i].userName+":"+data[i].content+"</label>";
+								div += "</div>";
+								div += "</div>";
+								div +="<div class='form-group'>";
+								div += "<div class='col-md-3 col-sm-3'></div>";
+								div += "<div class='col-md-4 col-sm-4 col-xs-12' style='background-color: #DDDDDD'>";
+								div += "<label style='color: #FF7744'>企业回复:"+data[i].reply+"</label>";
+								div += "</div>";
+								div += "</div>";
+							}
+							$("#commentList").append(div);
+						}
+				}
+					});
+		}
 		</script>
 </body>
 </html>

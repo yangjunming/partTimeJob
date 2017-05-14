@@ -2,6 +2,7 @@ package cn.com.job.service;
 
 import java.util.List;
 
+import cn.com.job.bean.CommentBean;
 import cn.com.job.bean.InfoBean;
 import cn.com.job.bean.RelationBean;
 import cn.com.job.bean.SigupInfoBean;
@@ -29,5 +30,17 @@ public interface InfoService {
 	public RelationBean getRelation(RelationBean relationBean);
 
 	public List<InfoBean> getInfoList(InfoBean infoBean);
+
+	public List<InfoBean> getInfoListByCandidate(Integer userId, String search);
+
+	public boolean addComment(CommentBean commentBean);
+
+	public List<CommentBean> commentList(Integer infoId,Integer status);
+
+	public CommentBean commentInfo(Integer commentId);
+
+	public boolean updateComment(CommentBean commentBean);
+
+	public boolean deleteComment(Integer commentId);
 
 }

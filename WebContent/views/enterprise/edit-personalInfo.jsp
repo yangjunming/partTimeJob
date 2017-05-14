@@ -51,6 +51,10 @@
 																				<li><a href="<%=basePath%>views/enterprise/addrecruitment-info.jsp">发布招聘信息</a></li>
 																				<!-- <li><a href="form_validation.html">Form Validation</a></li> -->
 																		</ul></li>
+																		<li><a><i class="fa fa-clone"></i>系统公告<span class="fa fa-chevron-down"></span></a>
+																		<ul class="nav child_menu">
+																				<li><a href="<%=basePath%>views/enterprise/system-infolist.jsp">系统公告</a></li>
+																		</ul></li>
 														</ul>
 												</div>
 										</div>
@@ -147,7 +151,7 @@
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
-		var createFlag =false;
+		var createFlag =true;
 		$(function userInfo(){
 			var userId =$("#userId").val();
 			$.ajax({

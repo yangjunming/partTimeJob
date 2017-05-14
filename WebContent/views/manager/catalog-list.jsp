@@ -18,9 +18,7 @@
 										<div class="navbar nav_title" style="border: 0;">
 												<!--               <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a> -->
 										</div>
-
 										<div class="clearfix"></div>
-
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
@@ -35,7 +33,7 @@
 										<br />
 										<!-- sidebar menu -->
 										<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-												<div class="menu_section">
+										<div class="menu_section">
 <!-- 														<h3>General</h3> -->
 														<ul class="nav side-menu">
 																<li><a><i class="fa fa-home"></i> 个人信息管理 <span class="fa fa-chevron-down"></span></a>
@@ -44,12 +42,12 @@
 																				<li><a href="<%=basePath%>views/manager/edit-password.jsp">修改登录密码</a></li>
 																		</ul>
 																	</li>
-																	<li><a><i class="fa fa-edit"></i>人员管理 <span class="fa fa-chevron-down"></span></a>
+																	<li class="active"><a><i class="fa fa-edit"></i>人员管理 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
 																				<li><a href="<%=basePath%>views/manager/user-list.jsp">人员列表</a></li>
 																		</ul>
 																	</li>
-																	<li class="active"><a><i class="fa fa-desktop"></i>系统管理 <span class="fa fa-chevron-down"></span></a>
+																	<li><a><i class="fa fa-desktop"></i>系统管理 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
 																				<li><a href="<%=basePath%>views/manager/system-message.jsp">系统公告</a></li>
 																				<li><a href="<%=basePath%>views/manager/info-list.jsp">兼职信息管理</a></li>
@@ -58,7 +56,7 @@
 																	</li>
 														</ul>
 												</div>
-										</div>
+												</div>
 										<!-- /sidebar menu -->
 										<!-- /menu footer buttons -->
 										<!-- /menu footer buttons -->
@@ -88,26 +86,10 @@
 						<div class="right_col" role="main">
 								<div class="x_panel">
 										<div class="x_title">
-												<h2>公告列表</h2>
-												<div class="col-md-6"></div>
-												<div class="col-md-5">
-														<div class="col-md-5">
-																<select class="form-control" id="type">
-																		<option value="0">全部</option>
-																		<option value="1">所有人可见</option>
-																		<option value="2">企业用户可见</option>
-																		<option value="3">求职用户可见</option>
-																</select>
-														</div>
-														<div class="col-md-3">
-																<select class="form-control" id="infoStatus">
-																		<option value="0">全部</option>
-																		<option value="1">正常</option>
-																		<option value="2">已删除</option>
-																</select>
-														</div>
-														<a class="btn btn-success" href="javascript:systemInfo();">搜索</a>
-														<a class="btn btn-success" href="<%=basePath%>views/manager/add-systemInfo.jsp">新增</a>
+												<h2>分类列表</h2>
+												<div class="col-md-8"></div>
+												<div class="col-md-3">
+														<a class="btn btn-success" href="<%=basePath%>views/manager/add-catalog.jsp">新增</a>
 												</div>
 												<div class="clearfix"></div>
 										</div>
@@ -116,15 +98,13 @@
 														<thead>
 																<tr>
 																		<th>#</th>
-																		<th>标题</th>
-																		<th>内容</th>
-																		<th>类型</th>
-																		<th>创建时间</th>
+																		<th>分类名称</th>
+																		<th>分类等级</th>
 																		<th>状态</th>
 																		<th>操作</th>
 																</tr>
 														</thead>
-														<tbody id="systemMessage">
+														<tbody id="catalogList">
 														</tbody>
 												</table>
 										</div>
@@ -141,73 +121,60 @@
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
 		$(function list(){
-			systemInfo();
+			catalogList();
 		});
-		
-		function systemInfo(){
-			 $("#systemMessage tr").remove();
-			 var type = $("#type").val();
-			 var infoStatus = $("#infoStatus").val();
-			 var datas = {"type":type,"status":infoStatus};
-	  	 $.ajax({
-	       type: "post",
-	       url: "<%=basePath%>manager/getMessageList",
-					data : JSON.stringify(datas),
-					dataType : "json",
-					contentType : 'application/json;charset=utf-8', //设置请求头信息  
-					success : function(data) {
-						console.log(data);
-						if (data.length > 0) {
-							var tr = "";
-							for (var i = 0; i < data.length; i++) {
-								var status = "";
-								if (data[i].status == "1") {
-									status = "正常";
-								} else if (data[i].status == "2") {
-									status = "已删除";
-								}
-								var type="";
-								if(data[i].type==1){
-									type = "所有人可见"
-								}else if(data[i].type==2){
-									type="企业用户可见";
-								}else if(data[i].type==3){
-									type="求职人员可见";
-								}
-								var content = "";
-								if(data[i].content.length>10){
-									content=data[i].content.substring(0,10);
-								}else{
-									content = data[i].content;
-								}
-								var j = Number(i) + Number(1);
-								tr += "<tr>";
-								tr += "<td>" + j + "</td>";
-								tr += "<td>" + data[i].title + "</td>";
-								tr += "<td>" + content + "</td>";
-								tr += "<td>" + type + "</td>"
-								tr += "<td>" + data[i].createDate + "</td>";
-								tr += "<td>" + status + "</td>";
-								if (data[i].status == 1) {
-									tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/manager/edit-systemInfo.jsp?id="+data[i].messageId+">详情</a>"+
-									"<a class='remove btn btn-primary input-xs' href='javascript:deletSysteInfo("+data[i].messageId+")'>删除</a></td>";
-								}else{
-									tr += "<td><a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/manager/edit-systemInfo.jsp?id="+data[i].messageId+">详情</a></td>";
-								}
+				function catalogList(){
+			$("#catalogList tr").remove();
+			var datas ={};
+			$.ajax({
+        type: "post",
+        url: "<%=basePath%>manager/getCatalogList",
+							data : JSON.stringify(datas),
+							dataType : "json",
+							contentType : 'application/json;charset=utf-8', //设置请求头信息  
+							success : function(data) {
+								console.log(data);
+								if (data.length > 0) {
+									var tr = "";
+									for (var i = 0; i < data.length; i++) {
+										var status = "";
+										if (data[i].status == "1") {
+											status = "正常";
+										} else if (data[i].status == "2") {
+											status = "已删除";
+										}
+										var catalogLevel="";
+										if(data[i].catalogLevel==1){
+											catalogLevel = "一级分类"
+										}else if(data[i].catalogLevel==2){
+											catalogLevel="二级分类";
+										}
+										var j = Number(i) + Number(1);
+										tr += "<tr>";
+										tr += "<td>" + j + "</td>";
+										tr += "<td>" + data[i].catalogName + "</td>";
+										tr += "<td>" + catalogLevel + "</td>";
+										tr += "<td>" + status + "</td>";
+										if (data[i].status == 1) {
+											tr += "<td><a class='remove btn btn-primary input-xs' href='javascript:deletCatalog("+data[i].catalogId+")'>删除</a></td>";
+										}else{
+											tr +="<td></td>";
+										}
 
-								tr += "</tr>";
+										tr += "</tr>";
+									}
+									$("#catalogList").append(tr);
+								} else {
+									alertError("没有分类信息!");
+								}
 							}
-							$("#systemMessage").append(tr);
-							}
-				}
-			});
-			
-		}
-				function deletSysteInfo(messageId){
-					var datas = {"messageId":messageId,"status":2}
+						});
+			}
+				function deletCatalog(id){
+					var datas = {"catalogId":id,"status":2}
 					$.ajax({
 		        type: "post",
-		        url: "<%=basePath%>manager/updateSysteInfo",
+		        url: "<%=basePath%>manager/editCatalog",
 					data : JSON.stringify(datas),
 					dataType : "json",
 					contentType : 'application/json;charset=utf-8', //设置请求头信息  
@@ -215,7 +182,7 @@
 						console.log(data);
 						if (data.flag == "1") {
 							alertMessage("删除成功");
-							systemInfo();
+							catalogList();
 						} else {
 							alertError("删除失败");
 						}

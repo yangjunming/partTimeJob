@@ -43,6 +43,11 @@
 																				<li><a href="<%=basePath%>views/candidate/edit-personalInfo.jsp">修改个人信息</a></li>
 																				<li><a href="<%=basePath%>views/candidate/edit-password.jsp">修改登录密码</a></li>
 																		</ul></li>
+																		<li><a><i class="fa fa-desktop"></i>报名信息<span class="fa fa-chevron-down"></span></a>
+																		<ul class="nav child_menu">
+																				<li><a href="<%=basePath%>views/candidate/my-job.jsp">我报名的兼职</a></li>
+																		</ul>
+																	</li>
 														</ul>
 												</div>
 										</div>
@@ -86,17 +91,17 @@
 									<div class="row">
 									<div class="col-md-8"></div>
 										<div class="col-md-4">
-						<a href="${pageContext.request.contextPath}/views/menu.jsp#views/home-passage.jsp">更多.....</a>
+						<a href="${pageContext.request.contextPath}/views/candidate/system-infolist.jsp">更多.....</a>
 						</div></div></div>
 						</div>
-						<div class="row tile_count" id="enterpriseList">
-            <div class='col-md-2 col-sm-4 col-xs-6 tile_stats_count'>
-            <span class='count_top'><i class='fa fa-user'>
-            </i></span><div class='count'></div>
-            <span class='count_bottom'><i class='green'>
-            </i></span>
-            </div>
-            </div>
+<!-- 						<div class="row tile_count" id="enterpriseList"> -->
+<!--             <div class='col-md-2 col-sm-4 col-xs-6 tile_stats_count'> -->
+<!--             <span class='count_top'><i class='fa fa-user'> -->
+<!--             </i></span><div class='count'></div> -->
+<!--             <span class='count_bottom'><i class='green'> -->
+<!--             </i></span> -->
+<!--             </div> -->
+<!--             </div> -->
 						<div>
 						<div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -162,10 +167,9 @@
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
 		$(function candidateIndex(){
-			enterprisefo();
+// 			enterprisefo();
 			infoList();
 			systemInfo();
-			
 		})
 		function systemInfo(){
 			 $("#systemMessage li").remove();
@@ -181,7 +185,7 @@
 						var li = "";
 						if(data.length>0){
 							for (var i = 0; i < data.length; i++) {
-								li += "<li style='padding-bottom: 5px'><a style='text-decoration:underline;' href=''>"+data[i].title+"</a></li>";
+								li += "<li style='padding-bottom: 5px'><a style='text-decoration:underline;' href='javascript:systemInfoDetailed("+data[i].messageId+");'>"+data[i].title+"</a></li>";
 								if(i==2){
 									break;
 								}
@@ -193,32 +197,36 @@
 			
 		}
 		
-   function enterprisefo(){
-  	 $("#enterpriseList div").remove();
-  	 $.ajax({
-       type: "get",
-       url: "<%=basePath%>enterprise/getEnterpriseList",
-				data : {},
-				dataType : "json",
-				contentType : 'application/json;charset=utf-8', //设置请求头信息  
-				success : function(data) {
-					var div = "";
-					if(data.length>0){
-						for (var i = 0; i < data.length; i++) {
-							div += "<div class='col-md-2 col-sm-4 col-xs-6 tile_stats_count'>";
-							div += "<span class='count_top'><i class='fa fa-user'></i>"+data[i].userName+"</span>"+
-							"<div class='count'>"+data[i].enterpriseName+"</div>"+
-							"<span class='count_bottom'><i class='green'></i>"+data[i].mobile+"</span>";
-							div += "</div>";
-							if(i==5){
-								break;
-							}
-						}
-						$("#enterpriseList").append(div);
-						}
-			}
-		});
+		function systemInfoDetailed(id){
+			window.location.href="<%=basePath%>views/candidate/system-info.jsp?id="+id+"";
 		}
+		
+//    function enterprisefo(){
+//   	 $("#enterpriseList div").remove();
+//   	 $.ajax({
+//        type: "get",
+<%--        url: "<%=basePath%>enterprise/getEnterpriseList", --%>
+// 				data : {},
+// 				dataType : "json",
+// 				contentType : 'application/json;charset=utf-8', //设置请求头信息  
+// 				success : function(data) {
+// 					var div = "";
+// 					if(data.length>0){
+// 						for (var i = 0; i < data.length; i++) {
+// 							div += "<div class='col-md-2 col-sm-4 col-xs-6 tile_stats_count'>";
+// 							div += "<span class='count_top'><i class='fa fa-user'></i>"+data[i].userName+"</span>"+
+// 							"<div class='count'>"+data[i].enterpriseName+"</div>"+
+// 							"<span class='count_bottom'><i class='green'></i>"+data[i].mobile+"</span>";
+// 							div += "</div>";
+// 							if(i==5){
+// 								break;
+// 							}
+// 						}
+// 						$("#enterpriseList").append(div);
+// 						}
+// 			}
+// 		});
+// 		}
    
    function infoList(){
   	 $("#infoList tr").remove();

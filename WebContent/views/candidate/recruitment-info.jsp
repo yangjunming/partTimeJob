@@ -39,11 +39,16 @@
 										<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 												<div class="menu_section">
 														<ul class="nav side-menu">
-														<li><a href="<%=basePath%>views/candidate/candidate-index.jsp"><i class="fa fa-home"></i>首页 <span class="fa fa-chevron-down"></span></a></li>
+																<li><a href="<%=basePath%>views/candidate/candidate-index.jsp"><i class="fa fa-home"></i>首页 <span
+																				class="fa fa-chevron-down"></span></a></li>
 																<li><a><i class="fa fa-edit"></i>个人信息管理</a>
 																		<ul class="nav child_menu">
 																				<li><a href="<%=basePath%>views/candidate/edit-personalInfo.jsp">修改个人信息</a></li>
 																				<li><a href="<%=basePath%>views/candidate/edit-password.jsp">修改登录密码</a></li>
+																		</ul></li>
+																<li><a><i class="fa fa-desktop"></i>报名信息<span class="fa fa-chevron-down"></span></a>
+																		<ul class="nav child_menu">
+																				<li><a href="<%=basePath%>views/candidate/my-job.jsp">我报名的兼职</a></li>
 																		</ul></li>
 														</ul>
 												</div>
@@ -86,6 +91,7 @@
 												<br />
 												<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 														<div>
+																<input id="flag" value="${param.flag}" hidden="">
 																<div class="form-group">
 																		<div class="col-md-3 col-sm-3"></div>
 																		<div class="col-md-4 col-sm-4 col-xs-12">
@@ -153,11 +159,33 @@
 																		<div id="workDescribe"></div>
 																</div>
 														</div>
-														<div class="col-md-12 col-sm-12 col-xs-12">
+														<div class="form-group">
+																<div class="col-md-3 col-sm-3"></div>
+																<div class="col-md-4 col-sm-4 col-xs-12">
+														<div class="x_title">
+																<h2>相关评论</h2>
+																<div class="clearfix"></div>
+														</div>
+														</div>
+														</div>
+														<div id="commentList">
+														</div>
+														<div class="form-group">
+																<div class="col-md-3 col-sm-3"></div>
+																<div class="col-md-4 col-sm-4 col-xs-12">
+																<textarea rows="3" cols="1350" style="margin: 0px; width: 369px; height: 79px;" id="comment"></textarea>
+																</div>
+														</div>
+														<div class="form-group">
+																		<div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
+																				<a type="button" class="btn btn-primary" href="javascript:comment();">提交评论</a>
+																		</div>
+														</div>
+<!-- 														<div class="col-md-12 col-sm-12 col-xs-12"> -->
 																<div class="ln_solid"></div>
 																<div class="form-group">
 																		<div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
-																				<a type="button" class="btn btn-primary" href="<%=basePath%>views/candidate/candidate-index.jsp">返回</a>
+																				<a type="button" class="btn btn-primary" href="javascript:back();">返回</a>
 																		</div>
 																</div>
 												</form>
@@ -201,6 +229,7 @@
 			}
 		});
 			getRelation();
+			commentList();
 			
 		})
 		
@@ -259,7 +288,72 @@
 						}
 					});
 				}
-
+			}
+		function commentList(){
+			var infoId =$("#infoId").val();
+			$("#commentList").empty();
+			$.ajax({
+        type: "post",
+        url: "<%=basePath%>info/commentList?infoId="+infoId+"&status=0",
+				data : {},
+				dataType : "json",
+				contentType : 'application/json;charset=utf-8', //设置请求头信息  
+				success : function(data) {
+						if (data.length>0) {
+							var div = "";
+							for (var i = 0; i < data.length; i++) {
+								div +="<div class='form-group'>";
+								div += "<div class='col-md-3 col-sm-3'></div>";
+								div += "<div class='col-md-4 col-sm-4 col-xs-12'>";
+								div += "<label style='color: #FF8888'>"+data[i].userName+":"+data[i].content+"</label>";
+								div += "</div>";
+								div += "</div>";
+								div +="<div class='form-group'>";
+								div += "<div class='col-md-3 col-sm-3'></div>";
+								div += "<div class='col-md-4 col-sm-4 col-xs-12' style='background-color: #DDDDDD'>";
+								div += "<label style='color: #FF7744'>企业回复:"+data[i].reply+"</label>";
+								div += "</div>";
+								div += "</div>";
+							}
+							$("#commentList").append(div);
+						}
+				}
+					});
+		}
+		
+		function comment(){
+			var comment = $("#comment").val();
+			var infoId =$("#infoId").val();
+			var userId =$("#userId").val();
+			if(userId == ''){
+				alertInfo("请先登录");
+			}else{
+				var datas = {"content":comment,"infoId":infoId,"userId":userId}
+			$.ajax({
+        type: "post",
+        url: "<%=basePath%>info/addComment",
+				data : JSON.stringify(datas),
+				dataType : "json",
+				contentType : 'application/json;charset=utf-8', //设置请求头信息  
+				success : function(data) {
+					if(data.flag=='1'){
+					alertMessage(data.message);
+					commentList();
+					$("#comment").val("");
+							} else {
+								alertError(data.message);
+							}
+						}
+					});
+			}
+		}
+		function back(){
+			var flag =$("#flag").val();
+			if(flag==1){
+				window.location.href="<%=basePath%>views/candidate/my-job.jsp";
+			}else{
+				window.location.href="<%=basePath%>views/candidate/candidate-index.jsp";
+				}
 			}
 		</script>
 </body>

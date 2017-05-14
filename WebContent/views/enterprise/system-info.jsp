@@ -16,15 +16,17 @@
 						<div class="col-md-3 left_col">
 								<div class="left_col scroll-view">
 										<div class="navbar nav_title" style="border: 0;">
+												<!--               <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a> -->
 										</div>
+
 										<div class="clearfix"></div>
 
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
-														<input id="candidateUserId" hidden="" value="${param.id}"> 
-														<input id="infoId" hidden="" value="${param.infoId}">
-														<img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
+														<input id="userId" value="${sessionScope.User.userId}" hidden="">
+														<input id="messageId" value="${param.id}" hidden="">
+														 <img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
 												</div>
 												<div class="profile_info">
 														<span>欢迎,</span>
@@ -36,6 +38,7 @@
 										<!-- sidebar menu -->
 										<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 												<div class="menu_section">
+<!-- 														<h3>General</h3> -->
 														<ul class="nav side-menu">
 																<li><a><i class="fa fa-home"></i> 个人信息管理 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
@@ -87,57 +90,28 @@
 						<div class="right_col" role="main">
 						<div class="x_panel">
                   <div class="x_title">
-                    <h2>修改个人信息 </h2>
+                    <h2>公告详情 </h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <br />
                     <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
                       <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">姓名</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" disabled="disabled" id="userName">
+                        <div style="text-align: center;">
+                        <label id="title" ></label>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">电话</label>
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12"></label>
                         <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" disabled="disabled" value="" id="mobile">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">性别</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                          <select class="form-control" id="gender" disabled="disabled">
-                            <option value="1">男</option>
-                            <option value="2">女</option>
-                            <option value="3">保密</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">年龄</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" value="" disabled="disabled" id="age">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">学历</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                           <input type="text" class="form-control" value="" disabled="disabled" id="education">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">自我描述/介绍</label>
-                        <div class="col-md-5 col-sm-5 col-xs-12">
-                           <textarea type="text" class="form-control" value="" disabled="disabled" id="describe"></textarea>
+                        <label id="content"></label>
                         </div>
                       </div>
                      <div class="col-md-12 col-sm-12 col-xs-12">
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
-                          <a type="button" class="btn btn-primary" href="javascript:back();">返回</a>
+                          <a type="button" class="btn btn-primary" href="<%=basePath%>views/enterprise/system-infolist.jsp">返回</a>
                         </div>
                       </div>
 
@@ -145,36 +119,31 @@
                   </div>
                 </div>
                 </div>
-						<!-- footer content -->
-						<!-- /footer content -->
 				</div>
 		</div>
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
-		$(function userInfo(){
-			var userId =$("#candidateUserId").val();
+		$(function info(){
+			var messageId = $("#messageId").val();
 			$.ajax({
-        type: "post",
-        url: "<%=basePath%>user/getUserById?userId="+userId+"",
+        type: "get",
+        url: "<%=basePath%>manager/getSystemInfo?messageId="+messageId+"",
 				data : {},
 				dataType : "json",
 				contentType : 'application/json;charset=utf-8', //设置请求头信息  
 				success : function(data) {
-					$("#userName").val(data.userName);
-					$("#mobile").val(data.mobile);
-					$("#gender").val(data.gender);
-					$("#age").val(data.age);
-					$("#education").val(data.education);
-					$("#describe").val(data.candidateDescribe);
-					$("#candidateId").val(data.candidateId);
+					console.log(data);
+					if(data.messageId !=0 ){
+						$("#title").text(data.title);
+						$("#content").text(data.content);
+				} else {
+					alertError("数据异常");
+				}
 			}
 		});
+			
 		})
-		function back(){
-			var infoId = $("#infoId").val();
-			window.location.href="<%=basePath%>views/enterprise/signup-list.jsp?id="+infoId+"";
-		}
 		</script>
 </body>
 </html>

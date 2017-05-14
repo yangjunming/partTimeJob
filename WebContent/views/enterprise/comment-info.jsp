@@ -24,9 +24,7 @@
 										<!-- menu profile quick info -->
 										<div class="profile clearfix">
 												<div class="profile_pic">
-														<input id="infoId" value="${param.id}" hidden="">
-														
-														 <img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
+														<img src="<%=basePath%>resources/production/images/img.jpg" alt="..." class="img-circle profile_img">
 												</div>
 												<div class="profile_info">
 														<span>欢迎,</span>
@@ -38,7 +36,7 @@
 										<!-- sidebar menu -->
 										<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 												<div class="menu_section">
-														<!-- 														<h3>General</h3> -->
+<!-- 														<h3>General</h3> -->
 														<ul class="nav side-menu">
 																<li><a><i class="fa fa-home"></i> 个人信息管理 <span class="fa fa-chevron-down"></span></a>
 																		<ul class="nav child_menu">
@@ -85,37 +83,45 @@
 						</div>
 						<!-- /top navigation -->
 						<div class="right_col" role="main">
-								<!-- page content -->
-								<div class="col-md-12 col-sm-12 col-xs-12">
-										<div class="x_panel">
-												<div class="x_title">
-														<h2>
-																应聘者列表
-														</h2>
-														<div class="clearfix"></div>
-												</div>
-												<div class="x_content">
-														<table class="table">
-																<thead>
-																		<tr>
-																				<th>#</th>
-																				<th>标题</th>
-																				<th>应聘者姓名</th>
-																				<th>应聘者年龄</th>
-																				<th>应聘者学历</th>
-																				<th>应聘者电话</th>
-																				<th>状态</th>
-																				<th>操作</th>
-																		</tr>
-																</thead>
-																<tbody id="sigupList">
-																</tbody>
-														</table>
-												</div>
+								<div class="x_panel">
+										<div class="x_title">
+												<h2>招聘信息详情</h2>
+												<div class="clearfix"></div>
+										</div>
+										<div class="x_content">
+												<br />
+												<form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+														<div class="form-group">
+																<div class="col-md-3 col-sm-3"></div>
+																<div class="col-md-4 col-sm-4 col-xs-12">
+																<label id="content"></label>
+																</div>
+														</div>
+														<div class="form-group">
+																<div class="col-md-3 col-sm-3"></div>
+																<div class="col-md-4 col-sm-4 col-xs-12">
+																<textarea rows="3" cols="1350" style="margin: 0px; width: 369px; height: 79px;" id="reply"></textarea>
+																<label id="hasReply"></label>
+																</div>
+																</div>
+														<div class="form-group" id="replyButton">
+																		<div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
+																				<a type="button" class="btn btn-primary" href="javascript:reply();">提交回复</a>
+																		</div>
+														</div>
+<!-- 														<div class="col-md-12 col-sm-12 col-xs-12"> -->
+																<div class="ln_solid"></div>
+																<div class="form-group">
+																		<div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
+																				<a type="button" class="btn btn-primary" href="javascript:back();">返回</a>
+																		</div>
+																</div>
+												</form>
 										</div>
 								</div>
-								<!-- /page content -->
 						</div>
+										<input id="commentId" value="${param.id}" hidden="">
+										<input id="infoId" value="${param.infoId}" hidden="">
 						<!-- footer content -->
 						<footer>
 								<div class="clearfix"></div>
@@ -126,71 +132,62 @@
 		<!-- Custom Theme Scripts -->
 		<script src="<%=basePath%>resources/build/js/custom.js"></script>
 		<script type="text/javascript">
-		$(function sigupInfo(){
-			sigupList();
+		$(function list(){
+			commentInfo();
 		});
-		function sigupList(){
-			$("#sigupList tr").remove();
-			var infoId = $("#infoId").val();
-			$.ajax({
-        type: "get",
-        url: "<%=basePath%>info/getsigupList?infoId=" + infoId + "",
+		
+		function commentInfo(){
+			 var commentId = $("#commentId").val();
+	  	 $.ajax({
+	       type: "get",
+	       url: "<%=basePath%>info/commentInfo?commentId="+commentId+"",
 					data : {},
 					dataType : "json",
 					contentType : 'application/json;charset=utf-8', //设置请求头信息  
 					success : function(data) {
-						if (data.length>0) {
-							console.log(data);
-							var tr = "";
-							for (var i = 0; i < data.length; i++) {
-								var status = "";
-								if(data[i].relationStatus=="1"){
-									status = "未处理";
-								}else if(data[i].relationStatus=="2"){
-									status = "已录用";
-								}else if(data[i].relationStatus=="3"){
-									status = "未录用";
-								}
-								var j = Number(i)+Number(1);
-								tr += "<tr>";
-								tr += "<td>" + j + "</td>";
-								tr += "<td>" + data[i].title + "</td>";
-								tr += "<td>" + data[i].userName + "</td>";
-								tr += "<td>" + data[i].age + "</td>";
-								tr += "<td>" + data[i].education + "</td>";
-								tr += "<td>" + data[i].mobile + "</td>";
-								tr += "<td>" + status + "</td>";
-								if(data[i].relationStatus=="1"){
-									tr += "<td><a class='remove btn btn-primary input-xs' href=javascript:eidt("+ data[i].relationId+","+2+")>录用</a>"+
-									"<a class='remove btn btn-primary input-xs' href=javascript:eidt("+ data[i].relationId+","+3+")>不录用</a>"+
-									"<a class='remove btn btn-primary input-xs' href=${pageContext.request.contextPath}/views/enterprise/candidate-info.jsp?id=" +  data[i].userId+ "&infoId="+infoId+">应聘者详情</a></td>";
-								}
-								tr += "</tr>";
+						console.log(data);
+						if(data!=null){
+							$("#content").text("评论:"+data.content);
+							console.log(data.commentStatus);
+							if(data.commentStatus==2){
+								$("#reply").hide();
+								$("#replyButton").hide();
+								$("#hasReply").text("回复:"+data.reply);
+							}else{
+								$("#hasReply").hide();
 							}
-							$("#sigupList").append(tr);
-						} else {
-							alertError("没有应聘信息!");
+							
 						}
-					}
-				});
-			}
-			
-		function eidt(relationId,status){
-			$.ajax({
-        type: "get",
-        url: "<%=basePath%>info/updateRelationStatus?relationId=" + relationId + "&relationStatus="+status+"",
-					data : {},
+							}
+			});
+		}
+		
+		function reply(){
+			 var commentId = $("#commentId").val();
+			 var reply = $("#reply").val();
+			 var infoId = $("#infoId").val();
+	     var datas = {"commentStatus":2,"commentId":commentId,"reply":reply}
+	  	 $.ajax({
+	       type: "post",
+	       url: "<%=basePath%>info/updateComment",
+					data : JSON.stringify(datas),
 					dataType : "json",
 					contentType : 'application/json;charset=utf-8', //设置请求头信息  
 					success : function(data) {
-						if(data){
-							sigupList();
-							alertMessage("操作成功");
-						}else{
-							alertError("操作失败");
+						console.log(data);
+						if(data.flag==1){
+							alertMessage(data.message);
+							window.setTimeout("window.location.href='<%=basePath%>views/enterprise/comment-list.jsp?id="+infoId+"'", 400);
+						} else {
+							alertError(data.message);
 						}
-						}
+							}
 			});
+		}
+		
+		function back(){
+			var infoId = $("#infoId").val();
+			window.location.href="<%=basePath%>views/enterprise/comment-list.jsp?id="+infoId+"";
 		}
 		</script>
 </body>
