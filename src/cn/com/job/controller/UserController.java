@@ -40,7 +40,7 @@ public class UserController {
 	 * 验证码
 	 */
 	@RequestMapping("/checkJpg")
-	public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void checkJpg(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 通知浏览器不要缓存
 		response.setHeader("Expires", "-1");
 		response.setHeader("Cache-Control", "no-cache");
